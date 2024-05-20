@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent # Quick-start development sett
 SECRET_KEY =  os.environ.get('SECRET_KEY') #"django-insecure-kl0p_s)%hdt+m%45dp7qur_$@rt@etsv+t)i(313556ex!@a-d"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 
