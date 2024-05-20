@@ -1,0 +1,80 @@
+{% extends 'main_app/base.html' %}
+
+{% block title %}
+    KoodiGuru - Blogi
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <title>KoodiGuru - Blogi</title>
+    <style>
+        .post {
+            margin-bottom: 20px; /* Lisää tilaa postausten välille */
+            border-bottom: 1px solid #eee; /* Erottaa postaukset toisistaan */
+            padding-bottom: 20px; /* Lisää tilaa ennen erottavaa viivaa */
+        }
+        .post-header {
+            color: #333; /* Otsikon väri */
+            margin-bottom: 5px; /* Pienempi marginaali otsikon ja sisällön välillä */
+        }
+        .post-meta {
+            color: #666; /* Metatiedon väri (esim. julkaisupäivämäärä) */
+            font-style: italic; /* Kursivointi metatiedolle */
+            margin-bottom: 10px; /* Marginaali metatiedon ja sisällön välillä */
+        }
+        .post-content {
+            text-align: justify; /* Tasaa sisällön molemmat reunat */
+            margin-bottom: 10px; /* Lisää tilaa ennen "Lue lisää" -linkkiä */
+        }
+        .read-more {
+            color: #007bff; /* Linkin väri */
+            text-decoration: none; /* Poistaa alleviivauksen */
+        }
+        .read-more:hover {
+            text-decoration: underline; /* Lisää alleviivauksen hover-tilassa */
+        }
+
+
+        .blog-header h1 {
+            margin-bottom: 0; /* Poistaa marginaalin h1:n ja alaotsikon väliltä */
+            color: #007bff; /* Otsikon väri */
+            font-size: 2.5rem; /* Otsikon fonttikoko */
+        }
+        
+        .blog-subtitle {
+            margin-top: 0; /* Poistaa ylimääräisen tilan alaotsikon yläpuolelta */
+            color: #666; /* Alaotsikon tekstiväri */
+            font-size: 1.5rem; /* Alaotsikon fonttikoko */
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="blog-header">
+        <h1>Digitaaliset Tarinat:</h1>
+        <p class="blog-subtitle">KoodiGurun Blogi Teknologiasta ja Oppimisesta</p>
+    </div>
+    
+    <hr>
+
+    <div>
+        {% for post in posts %}
+        <div class="post">
+            <h2 class="post-header">{{ post.title }}</h2>
+            <p class="post-meta">{{ post.date_posted }} by <strong> {{ post.author }}</strong></p>
+            <div class="post-content">
+                {{ post.content|truncatewords:30|safe }} <!-- Käytä 'safe'-suodatinta -->
+            </div>
+        
+            <a href="{% url 'main_app:post_detail' post.id %}" class="read-more">Lue lisää...</a>
+           
+       
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+{% endblock %}

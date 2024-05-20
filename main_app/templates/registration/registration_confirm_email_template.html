@@ -1,0 +1,15 @@
+{% autoescape off %}
+Hei {{ user.username }},
+
+Kiitos rekisteröitymisestäsi KoodiGuru-palveluun. Jotta voimme varmistaa sähköpostiosoitteesi, pyydämme sinua vahvistamaan rekisteröitymisesi klikkaamalla alla olevaa linkkiä:
+
+{{ activation_link }}
+
+Jos et rekisteröitynyt KoodiGuru-palveluun, voit jättää tämän viestin huomiotta. Linkki kuoletetaan automaattisesti 30 minuutin kuluttua.
+
+Ystävällisin terveisin,
+KoodiGuru-tiimi
+{% endautoescape %}
+
+
+

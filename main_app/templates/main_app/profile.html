@@ -1,0 +1,91 @@
+{% extends 'main_app/base.html' %}
+{% load tz %}
+{% block title %}
+    KoodiGuru - Profiili {{ user.username }}
+ {% endblock %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile_styles.css' %}">
+
+<br>
+<div class="container">
+    <h2>Hei {{ user.first_name }}. Tervetuloa Koodiguruun!</h2>
+    <hr>
+    <div class="profile-info">
+        <h3> {{ user.level_name }}</h3>
+        {% if user.level_icon_url %}
+        <img class="level-icon" src="{{ user.level_icon_url }}" alt="User Level Icon">
+    {% else %}
+        <p>Tuntematon taso</p>
+    {% endif %}
+    <p><strong>Suoritetut tehtävät:</strong> {{ user.completed_tasks_count }}</p>
+    <p><strong>Pisteet:</strong> {{user.points }}</p>
+   <!-- <p><strong>Seuraava taso:</strong> -->
+  <!-- Nykyisen tason edistymispalkki -->
+<!-- Nykyisen tason edistymispalkki -->
+<div class="container">
+   
+    <!-- Tason nimi edistymispalkin yläpuolella -->
+    <div style="text-align: left; margin-bottom: 10px; font-size: 18px;">
+        <h4> {{ user.level_name }}-tason edistyminen</h4>
+    </div>
+
+    <div class="progress" style="height: 40px; width: 70%; margin-top: 10px;">
+        <div class="progress-bar {{ level_data.color }}" role="progressbar" 
+            style="width: {{ level_data.percentage }}%;" 
+            aria-valuenow="{{ level_data.percentage }}" aria-valuemin="0" 
+            aria-valuemax="100">
+            {{ level_data.percentage|floatformat:0 }}%
+        </div>
+    </div>
+</div>
+
+
+       <br>
+        <p><strong>Käyttäjänimi:</strong> {{ user.username }}</p>
+        <p><strong>Nimi:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+        <p><strong>Sähköposti:</strong> {{ user.email }}</p>
+        <p><strong>Rooli:</strong> {{ user.role }}</p>
+        
+       <!-- <div class="user-level">
+            <p><strong>Taso:</strong> {{ user.level_name }}</p>
+           
+        </div>
+    -->
+
+
+{% localtime on %}
+<p><strong>Edellinen kirjautuminen:</strong>  {{user.last_login|date:"d.m.Y H :i:s "}} </p>
+{% endlocaltime %}
+
+{% localtime on %}
+<p><strong>Liittyi: </strong> {{user.date_joined|date:"d.m.Y H:i"}}</p>
+{% endlocaltime %}
+<hr>
+<p><a href="{% url 'main_app:edit_profile' %}"><strong>Muokkaa profiilia </strong> </a> </p>
+<a href="{% url 'main_app:password_change' %}"><strong>Muuta salasanaa.</strong></a>
+
+<hr>
+{% if request.user.is_authenticated and request.user.role == 'student'%}
+<h2>Omat suosikki kurssit </h2>
+<hr>
+
+{% for usercourse in user.usercourse_set.all %}
+<div class="d-flex justify-content-between align-items-center">
+    
+    <h5><a href="{% url 'main_app:course_detail' usercourse.course.id %}"> {{ usercourse.course.courseTitle }}</a></h5>
+    <a href="{% url 'main_app:remove_course_from_user' usercourse.course.id %}" class="btn btn-sm btn-danger">Poista kurssi</a>
+
+    
+
+</div>
+<hr>
+
+{% endfor %}
+</div>
+
+{% endif %}
+
+</div>
+</div>
+{% endblock %}

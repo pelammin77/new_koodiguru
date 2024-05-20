@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Aseta Dockerin kontin ja imagen nimet
+CONTAINER_NAME="koodiguru_container"
+IMAGE_NAME="koodiguru_image"
+
+
+
+sudo docker stop $CONTAINER_NAME
+sudo docker rm $CONTAINER_NAME
+sudo docker build -t $IMAGE_NAME .
+sudo docker run --name $CONTAINER_NAME -d -p 8000:8000 $IMAGE_NAME
+sudo docker logs -f $CONTAINER_NAME
+ rebuild_and_run.sh rebuild_and_run.sh rebuild_and_run.sh rebuild_and_run.sh

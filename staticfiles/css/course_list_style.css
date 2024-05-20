@@ -1,0 +1,26 @@
+.card {
+    border-radius: 15px; /* pyöristetyt kulmat */
+    height: auto;   /* Määritä maksimikorkeus */
+    padding: 20px;
+    width: auto;
+    overflow: hidden;    /* Piilota ylikuormittunut sisältö */
+    border: double;
+    color: gold;
+    background: linear-gradient(45deg,  #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); 
+}
+
+.btn-outline-primary {
+    border-color: green;
+    background-color: rgb(5, 247, 5);
+    color: black;
+}
+
+.btn-outline-primary:hover {
+    background-color: green;
+    color: #FFF;
+}
+
+
+.btn-spacing {
+margin: 10px;
+}

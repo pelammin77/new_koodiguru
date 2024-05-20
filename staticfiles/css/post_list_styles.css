@@ -1,0 +1,38 @@
+.post {
+    margin-bottom: 20px; /* Lisää tilaa postausten välille */
+    border-bottom: 1px solid #eee; /* Erottaa postaukset toisistaan */
+    padding-bottom: 20px; /* Lisää tilaa ennen erottavaa viivaa */
+}
+.post-header {
+    color: #333; /* Otsikon väri */
+    margin-bottom: 5px; /* Pienempi marginaali otsikon ja sisällön välillä */
+}
+.post-meta {
+    color: #666; /* Metatiedon väri (esim. julkaisupäivämäärä) */
+    font-style: italic; /* Kursivointi metatiedolle */
+    margin-bottom: 10px; /* Marginaali metatiedon ja sisällön välillä */
+}
+.post-content {
+    text-align: justify; /* Tasaa sisällön molemmat reunat */
+    margin-bottom: 10px; /* Lisää tilaa ennen "Lue lisää" -linkkiä */
+}
+.read-more {
+    color: #007bff; /* Linkin väri */
+    text-decoration: none; /* Poistaa alleviivauksen */
+}
+.read-more:hover {
+    text-decoration: underline; /* Lisää alleviivauksen hover-tilassa */
+}
+
+
+.blog-header h1 {
+    margin-bottom: 0; /* Poistaa marginaalin h1:n ja alaotsikon väliltä */
+    color: #007bff; /* Otsikon väri */
+    font-size: 2.5rem; /* Otsikon fonttikoko */
+}
+
+.blog-subtitle {
+    margin-top: 0; /* Poistaa ylimääräisen tilan alaotsikon yläpuolelta */
+    color: #666; /* Alaotsikon tekstiväri */
+    font-size: 1.5rem; /* Alaotsikon fonttikoko */
+}

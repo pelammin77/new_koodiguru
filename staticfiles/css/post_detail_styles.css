@@ -1,0 +1,30 @@
+.container .post-container {
+    background-color: #F5F5F5;
+    border: 1px solid #DDD;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.container .post-container h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.post-container p, .post-container a {
+    color: #333;
+    line-height: 1.6;
+}
+
+pre {
+    background-color: #F8F8F8;
+    border-radius: 4px;
+    padding: 10px;
+    border: 1px solid #DDD;
+    overflow-x: auto;
+}
+
+pre code {
+    background-color: transparent;
+    color: #333;
+    font-family: 'Courier New', monospace;
+}

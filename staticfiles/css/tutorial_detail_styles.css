@@ -1,0 +1,38 @@
+.container .tutorial-container {
+    background-color: #E5E5E5; /* Taustaväri */
+    border: 1px double gold; /* Kehyksen väri */
+    padding: 20px; /* Sisäinen etäisyys */
+    margin-bottom: 20px; /* Ulkoinen etäisyys alhaalla */
+}
+
+.container .tutorial-container h1 {
+    color: black; /* Otsikon väri */
+    margin-bottom: 20px; /* Ulkoinen etäisyys alhaalla */
+}
+
+.tutorial-container p {
+    color: #333; /* Tekstin väri */
+    line-height: 1.6; /* Rivien korkeus */
+}
+
+.tutorial-container a {
+    color: #007bff; /* Linkkien väri */
+}
+
+pre {
+    background-color: #ffff; /* Muutettu taustaväri koodille */
+    border-radius: 4px;
+    padding: 10px;
+    border: 1px double #161515;
+    overflow-x: auto; /* Automaattinen vierityspalkki, jos koodirivi on liian pitkä */
+}
+
+pre code {
+    background-color: transparent; /* Poistettu koodipalasen taustaväri niin, että se ei peitä pre-elementin taustaväriä */
+    color: white;
+    font-family: 'Courier New', monospace; /* Monospace-fontti koodille */
+}
+
+.language-python {
+    background-color: #FFFFFF !important;
+}

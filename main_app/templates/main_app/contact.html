@@ -1,0 +1,39 @@
+
+{% extends 'main_app/base.html' %}
+{% load static %}
+
+{% block title %}
+    Yhteystiedot
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6">
+            <h1>Yhteystiedot</h1>
+            <h5><i class="fa fa-map-marker"></i> Osoite</h5>
+            <p>Kievarintie Ähtäri</p>
+            
+            <h5><i class="fa fa-envelope"></i> Sähköposti</h5>
+            <p>koodiguruoficial@gmail.com</p>
+        </div>
+        <div class="col-lg-6">
+            {% if user.is_authenticated %}
+                <h2>Ota yhteyttä</h2>
+                <form action="{% url 'main_app:send_email' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="messageTextArea">Viestisi</label>
+                        <textarea class="form-control" id="messageTextArea" name="messageTextArea" rows="3" placeholder="Viestisi"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Lähetä</button>
+                </form>
+            {% else %}
+                <p>Ole hyvä ja <a href="{% url 'main_app:login' %}">kirjaudu sisään</a> tai <a href="{% url 'main_app:register' %}">rekisteröidy</a>, jotta voit ottaa meihin yhteyttä.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

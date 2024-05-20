@@ -1,0 +1,17 @@
+{% extends 'main_app/base.html' %}
+
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/post_detail_styles.css' %}">
+
+<div class="container">
+    <div class="post-container">
+        <h1>{{ post.title }}</h1>
+        <p><small>Julkaisupäivä: {{ post.date_posted }} | Kirjoittaja: {{ post.author }}</small></p>
+        <div>{{ post.content|safe }}</div> <!-- Käytä 'safe' suodatinta jos sisältö sisältää HTML-koodia -->
+    </div>
+    <a href="javascript:history.back()">Palaa edelliselle sivulle</a>
+</div>
+
+{% endblock %}

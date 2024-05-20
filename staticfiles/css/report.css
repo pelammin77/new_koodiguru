@@ -1,0 +1,35 @@
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ddd; /* Vaaleanharmaa viiva erottamaan rivit */
+  }
+
+  th {
+    background-color: #f2f2f2; /* Vaalea taustaväri otsikoille */
+    color: #333; /* Tummanharmaa tekstiväri */
+  }
+
+  tr:hover {
+    background-color: #f5f5f5; /* Hieman tummempi taustaväri kun hiiri rivin päällä */
+  }
+
+  td {
+    color: #666; /* Keskiharmaa tekstiväri */
+  }
+
+  /* Erityistyylit eri käyttäjärooleille */
+  .admin { background-color: #ffcccb; } /* Vaaleanpunainen tausta admin-käyttäjille */
+  .teacher { background-color: #ddffcc; } /* Vaaleanvihreä tausta opettajille */
+  .student { background-color: #d9edf7; } /* Vaaleansininen tausta oppilaille */
+  .tester { background-color: #fffacd; } /* Vaaleankeltainen tausta testaajille */

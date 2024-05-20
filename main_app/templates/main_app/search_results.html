@@ -1,0 +1,85 @@
+{% extends 'main_app/base.html' %}
+{% load dict_tools %}
+{% block title %}
+    KoodiGuru - Hakutulokset termille "{{ query }}"
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/search_results_styles.css' %}">
+
+
+
+<h1>Hakutulokset termille "{{ query }}"</h1>
+<hr>
+<br>
+
+<div class="container">
+    <h2 class="mb-3">Kurssit</h2>
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-md-6 mb-4"> 
+            <div class="card shadow-sm" style="padding: 10px;">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'main_app:course_detail' course.id %}">{{ course.courseTitle }}</a></h5>
+                   <br>
+                   <p class="card-text">{{ course.courseDescription }}</p>
+                   <p class="card-text"><strong>Tutoriaalien määrä: </strong>{{ course.num_tutorials }}</p>
+                   <p class="card-text"><strong>Tehtävien määrä: </strong>{{ course.num_tasks }}</p>
+                   <p class="card-text"><strong>Esitiedot: </strong>{{course.prerequisites}}</p>
+                   {% if course.is_premium %}
+                   <p class="card-text text-danger"><strong>Premium Kurssi</strong></p>
+                   {% endif %}
+
+                    {% if request.user.is_authenticated and request.user.role == 'student' and course.id not in user_courses %}
+                        <a href="{% url 'main_app:add_course_to_user' course.id %}" class="btn btn-outline-primary mb-2">Lisää kurssi suosikkeihin</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="mb-3">Tehtävät</h2>
+    <div class="row">
+        {% for task in tasks %}
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm" style="padding: 10px;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ task.taskTitle }}</h5>
+                    <br>
+                    <p class="card-text"><strong>Kurssi: </strong><a href="{% url 'main_app:course_detail' task.course.id %}">{{ task.course.courseTitle }}</a> </p>
+
+                    <p class="card-text"><strong>Ohjelmointikieli: </strong>{{ task.language }}</p>
+                    <p class="card-text"><strong>Tehtävän kategoria: </strong>{{task.category}} </p>
+                    <p class="card-text"><strong>Taso: </strong>{{task.difficulty}} </p>
+                    <a class="btn btn-primary perform-task" 
+                        {% if user_task_status|get_item:task.id == 'solved' %}
+                            href="{% url 'main_app:review_task' task.id %}">Tarkastele vastausta
+                        {% else %}
+                            href="{% url 'main_app:perform_task' task.id %}">Suorita tehtävä
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="mb-3">Tutoriaalit</h2>
+    <div class="row">
+        {% for tutorial in tutorials %}
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm" style="padding: 10px;">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'main_app:tutorial_detail' tutorial.id %}">{{ tutorial.title }}</a></h5>
+                    <p class="card-text">{{ tutorial.description|safe }}</p>
+                    <!-- Tähän voit lisätä muita linkkejä tai toimintoja tutoriaaliin liittyen -->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

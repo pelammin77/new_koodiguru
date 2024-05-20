@@ -1,0 +1,30 @@
+     
+   .description-style {
+    text-align: left;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    padding: 10px;
+    overflow-x: auto;
+    color: #333;
+    font-size: 18px;
+}
+
+link-button {
+ background: none !important;
+ border: none;
+ padding: 0 !important;
+ color: #069;
+ text-decoration: underline;
+ cursor: pointer;
+}
+.link-button:hover {
+ color: #0056b3;
+ text-decoration: underline;
+}
+
+.task-actions {
+ display: flex;
+ justify-content: space-between; /* Asettaa sisällön sivun ääripäihin */
+ align-items: center; /* Keskittää sisällön pystysuunnassa */
+ margin-bottom: 20px; /* Lisää tilaa alapuolelle */
+}

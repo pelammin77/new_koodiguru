@@ -1,0 +1,29 @@
+{% load static %}
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>Tietoa meistä</h5>
+                <p>KoodiGuru on suomalainen ohjelmointikurssien ja algoritmihaasteiden palvelu, joka auttaa sinua kehittämään taitojasi ja valmistautumaan työhaastatteluihin.</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Linkkejä</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'main_app:course_list' %}">Kurssit</a></li>
+                    <li><a href="{% url 'main_app:contact' %}">Yhteystiedot</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Ota yhteyttä</h5>
+                <p>Email: koodiguruoficial@gmail.com</p>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Lisätään logo tähän keskelle alatunnistetta -->
+            <div class="col-md-12 text-center">
+                <img src="{% static 'img/koodiguru_logo_final.png' %}" alt="KoodiGuru Logo" class="footer-logo" height=300  />
+                <p>&copy; 2023 KoodiGuru. Kaikki oikeudet pidätetään.</p>
+            </div>
+        </div>
+    </div>
+</footer>

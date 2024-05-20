@@ -1,0 +1,109 @@
+{% extends 'main_app/base.html' %}
+{% load dict_tools %}
+{% block title %}
+    KoodiGuru - {{ course.courseTitle }}
+{% endblock %}
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/course_detail_style.css' %}">
+
+<h1>{{ course.courseTitle }}</h1>
+<p>{{ course.courseDescription }}</p>
+<button id="toggleTasks" class="btn btn-primary mb-2">Näytä Tutoriaalit</button>
+<div class="tasks-section">
+    <!-- Sidebar for tasks -->
+    <div class="sidebar">
+        <h2 class="mt-4" style="background-color: whitesmoke">Kurssin tehtävät</h2>
+        <hr>
+        {% regroup tasks by category as tasks_by_category %} 
+        {% for category_tasks in tasks_by_category %}
+            <h3 class="category-title">{{ category_tasks.grouper }}</h3>
+            {% for task in category_tasks.list %}
+                <div class="task-item">
+                    <div class="d-flex justify-content-between task-header">
+                        
+                        <h5>{{ task.taskTitle }}</h5>
+                        
+                        <!-- Lisätään tehtävän tila -->
+                        <div>
+                            {% with task_status=user_task_status|default:task.id|stringformat:"s" %}
+                                {% if user_task_status|get_item:task.id == 'started' %}
+                                    <span class="badge bg-primary">Aloitettu</span>
+                                {% elif user_task_status|get_item:task.id == 'solved' %}
+                                    <span class="badge bg-success">Ratkaistu</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Ei aloitettu</span>
+                                {% endif %}
+                            {% endwith %}
+                        </div>                       
+                    </div>
+                    <p><strong>Taso:</strong> {{ task.difficulty }}</p>
+                    <div class="task-details" style="display: none;">
+                        <p><strong>Kuvaus:</strong> {{ task.taskDescription|safe }}</p>
+                        <p><strong>Kieli:</strong> {{ task.language }}</p>
+                        <p>
+                            <strong>Onko ilmainen:</strong>
+                            {% if task.is_free %}
+                                <span class="dot dot-green"></span>
+                            {% else %}
+                                <span class="dot dot-red"></span>
+                            {% endif %}
+                        </p>
+                        <a class="btn btn-primary perform-task" 
+                            {% if user_task_status|get_item:task.id == 'solved' %}
+                                href="{% url 'main_app:review_task' task.id %}">Tarkastele vastausta
+                            {% else %}
+                                href="{% url 'main_app:perform_task' task.id %}">Suorita tehtävä
+                            {% endif %}
+                        </a>
+                    </div>
+                    <hr>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+<div class="tutorials-section">
+    <!-- Content right of the sidebar -->
+    <div class="content-right">
+        <h2>Kurssin tutoriaalit</h2>
+        <div class="row highlighted-section">
+            {% for tutorial in tutorials %}
+                <div class="col-md-6 mb-4">
+                    <div class="card small-card">
+                       <div class="card-header">
+                            <h4 class="mb-0">{{ tutorial.title }}</h4>
+                            <img src="{{ tutorial.tutorialLogo.url }}" alt="{{ tutorial.title }} logo" class="card-img-top" style="max-width: 200px; max-height: 200px; margin-bottom: 15px; margin-top: 15px;">
+
+                        </div>
+                        <div class="card-body">
+                            <p>{{ tutorial.description|safe }}</p>
+                            <a href="{% url 'main_app:tutorial_detail' tutorial.id %}" class="btn btn-primary">Lue lisää</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#toggleTasks").click(function() {
+            $(".tasks-section").toggle();
+            $(".tutorials-section").toggle();
+            if ($(".tasks-section").is(":visible")) {
+                $(this).text("Näytä Tutoriaalit");
+            } else {
+                $(this).text("Näytä Tehtävät");
+            }
+        });
+        $(".task-header").click(function() {
+            $(this).siblings(".task-details").slideToggle();
+        });
+    });
+</script>
+{% endblock %}

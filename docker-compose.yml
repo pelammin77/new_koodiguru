@@ -1,0 +1,54 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: koodiguruDB
+    volumes:
+      - koodiguru_db_volume:/var/lib/mysql
+    ports:
+      - "3307:3306"
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - log_volume:/app/logs
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: mysql://pete:${MYSQL_PASSWORD}@db:3306/koodigurudb
+
+
+  run-code:
+    build:
+      context: .
+      dockerfile: Dockerfile-Code-runner  # Viittaa `run-code`-kontin Dockerfileen
+    volumes:
+      - .:/app  # Voit määrittää eri hakemistopolun, jos tarpeen
+    depends_on:
+      - db  # Olettaen, että `run-code` riippuu tietokantapalvelusta
+    ports:
+      - "8001:8000"  # Varmista, että tämä portti on eri kuin `web`-palvelulla
+
+  cron:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: mysql://pete:${MYSQL_PASSWORD}@db:3306/koodigurudb
+    #command: python manage.py runcrons
+    # Tai käytä seuraavaa komentoa, jos tarvitset rajoittamattoman ajan:
+    command: sh -c 'while true; do python manage.py runcrons; sleep 60; done'
+
+volumes:
+  koodiguru_db_volume:
+  log_volume:

@@ -1,0 +1,213 @@
+   .task--text {
+                text-align: center;
+                font-size: 24px;
+                font-family: 'Roboto', sans-serif;
+            }
+
+            #upper {
+                width: 100%;
+                height: 400px;
+                overflow: auto;
+            }
+            .CodeMirror {
+                font-size: 25px;
+                width: 90%;
+                height: 500px;
+                margin: 0 auto;
+            }
+            #handle {
+                background: transparent;
+                height: 10px;
+                cursor: ns-resize;
+                width: 100%;
+            }
+            #lower {
+                width: 100%;
+                height: 10%;
+                overflow: auto;
+            }
+            #consoleElement {
+                width: 20%;
+                height: 20%;
+                margin: 0px auto;
+                background-color: #fff;
+                color: #000;
+                padding: 10px;
+                font-size: 20px;
+                overflow: auto;
+                border: double;
+                white-space: pre-line;
+                
+            }
+            .editor-container {
+                border-bottom: double;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: auto;
+            }
+        .button-container {
+           background-color:  #080808 ;/* #0E0E0F;*/  
+            display: flex;
+            justify-content: flex-end;
+            align-items: center  ;
+            padding-right: 20px;
+    }
+        
+        .save-code-button {
+             background-color: #007BFF; /* Sininen */
+             border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 1px 1px;
+                
+                cursor: pointer;
+    }
+    
+            .run-code-button {
+                background-color: #4CAF50; /* Vihreä */
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 10px 2px;
+                cursor: pointer;
+            }
+
+
+
+            .custom-editor-size {
+            height: 800px !important;
+            }
+
+
+            .show-tutorial-button {
+                background-color: #c86915; /* Vihreä */
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 10px 2px;
+                cursor: pointer;
+            }
+
+
+ .example-run-container {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.example-run {
+    text-align: left;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    padding: 10px;
+    overflow-x: auto;
+}
+
+.example-run-container h3 {
+    margin-bottom: 10px;
+}
+
+
+
+
+.tutorial-container {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+
+.tutorial {
+    text-align: left;
+    font-size: 18px;
+    color: #333;
+}
+
+.example-run-container h3 {
+    margin-bottom: 10px;
+}
+
+h3.tutorial-header {
+        text-align: left; /* keskittää otsikon */
+        margin-bottom: 1px; /* muuttaa otsikon ja containerin välistä etäisyyttä */
+        margin-left: 190px;
+    }
+
+.description-style {
+    text-align: left;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    padding: 10px;
+    overflow-x: auto;
+    color: #333;
+    font-size: 18px;
+}
+.content-header, .content-section {
+    margin-left: 30px; /* tai mikä tahansa haluamasi arvo */
+}
+
+
+.content-section,
+    .prettyprint {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+      /* Tämä sääntö muuttaa diff-tekstin punaiseksi */
+  del {
+    background: none;
+    text-decoration: line-through;
+    color: rgb(21, 33, 2);
+  }
+  /* Tämä sääntö muuttaa lisätyn tekstin vihreäksi */
+  ins {
+    background: red;
+    color: red;
+  }
+
+  .console-title {
+    color: #ccc;
+    background-color: #080808;
+    text-align:left;
+    font-weight:bold;
+    margin-bottom: 1px;
+    font-size: 22px;  /* Adjust the font size as you see fit */
+    padding-left: 5px;  /* Adds some padding to the left of the title for better appearance */
+  }
+  
+    .editor-header {
+    background-color: #374998;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+    border : 2px solid #444;
+}
+
+
+
+
+

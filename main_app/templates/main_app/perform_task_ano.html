@@ -1,0 +1,378 @@
+<head>      
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.59.1/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.59.1/theme/dracula.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.59.1/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.59.1/mode/python/python.min.js"></script>
+    <script src="https://cdn.example.com/google/code-prettify/master/loader/run_prettify.js"></script><script></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ </head>
+
+
+ {% extends 'main_app/base.html' %}
+ 
+   
+{% block content %}
+{% include 'main_app/messages.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'codemirror/lib/codemirror.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'codemirror/addon/hint/show-hint.css' %}">
+<link rel="stylesheet" href="{% static 'codemirror/theme/eclipse.css' %}">
+<link rel="stylesheet" href="{% static 'codemirror/theme/dracula.css' %}">
+<link rel="stylesheet" href="{% static 'codemirror/theme/duotone-light.css' %}">
+<link rel="stylesheet" href="{% static 'codemirror/theme/3024-night.css' %}">
+<link rel="stylesheet" href="{% static 'codemirror/theme/3024-day.css' %}">         
+<link rel="stylesheet" href="{% static 'codemirror/theme/abbott.css' %}">
+<link rel="stylesheet" href="{% static 'codemirror/theme/abcdef.css' %}">
+<link rel="stylesheet" href="{% static 'codemirror/theme/ambiance.css' %}">   
+<link rel="stylesheet" type="text/css" href="{% static 'css/new_task_style.css' %}">
+
+
+<script src="{% static 'codemirror/lib/codemirror.js' %}"></script>
+<script src="{% static 'codemirror/addon/hint/show-hint.js' %}"></script>
+<script src="{% static 'codemirror/addon/edit/closebrackets.js' %}"></script>
+<script src="{% static 'codemirror/mode/python/python.js' %}"></script>
+<script src="{% static 'js/diff_match_patch.js' %}"></script>
+<script src="{% static 'codemirror/addon/selection/active-line.js' %}"></script>
+
+
+<a href="javascript:history.back()"><strong> Palaa edelliselle sivulle</strong></a>
+<h1 style="text-align: center">{{ task.taskTitle|safe }}</h1>
+
+<h3 class="content-header">Tehtävänanto </h3>
+<div class="description-style content-section">
+    <p>{{ task.taskDescription|safe }}</p>
+</div>
+<br>
+
+<div class="example-run-container content-section">
+    <h3>Esimerkkiajo:</h3>
+    <div class="example-run">
+        <pre class="prettyprint">
+{{ answer.answerOutput|safe }}
+        </pre>
+    </div>
+    <a href="{% url 'main_app:review_task' task.id %}"><strong> Näytä tehtävän vastaus</strong></a>
+
+</div>
+
+<!-- Uusi koodieditori div elementti -->
+<div class="editor-header">
+    Koodiguru-editori versio 0.9
+</div>
+<div class="button-container">
+    <label for="theme-selector" style="color: white;">Valitse teema: </label>
+
+      <!-- Teeman valitsin -->
+      <select id="theme-selector">
+        <option value="default">Default</option>
+        <option value="dracula">Dracula</option>
+        <option value="eclipse">Eclipse</option>
+        <option value="duotone-light">Duotone-light</option>
+        <option value="3024-night">3024-night</option>
+        <option value="3024-day">3024-day</option>
+        <option value="abbott">Abbott</option>
+        <option value="abcdef">abcdef</option>
+    </select>
+
+    <button id="run-code-button" class="run-code-button">Aja koodi</button>
+{% if task.tutorial %}
+    <a href="{% url 'main_app:tutorial_detail' task.tutorial.id %}"  target="_blank" id="show-tutorial-button" class="show-tutorial-button">Näytä tutoriaali</a>
+{% endif %}
+</div>
+
+<textarea id="code-editor">{{ user_answer.answer|default:task.taskStarterCode|safe }}</textarea>
+<div class="console-title">
+   
+    
+</div>     
+<div id="consoleElement" style="border: 10px solid; color: rgb(14, 14, 15);  background-color: #D5D6D6;   padding: 10px;  margin-bottom: 50px; width: auto; height: 250px; overflow-y: scroll;"></div>
+</div>
+
+<!--
+    ulkoinen sript js tiedosto 
+    Reititys aiheuttaa ongelmia Djangossa 
+--> 
+    <!--
+    <script src="{% static 'js/task_script.js' %}"></script>
+    <div id="task-data" data-task-id="{{ task.id }}" data-task-language="{{ task.language|lower }}"></div>
+-->
+
+
+<!--
+
+    JS sriptit 
+-->
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+    console.log("HTML dokumentti on ladattu ja valmis"); 
+    // Yrittää ensin ladata teeman tietokannasta, jos ei löydy, kokeillaan localStoragea, ja viimeisenä oletusteemaa.
+    var themeToUse = "{{ editor_theme }}" || localStorage.getItem('selectedTheme') || 'default';
+
+    editor.setOption('theme', themeToUse);
+    document.getElementById('theme-selector').value = themeToUse;
+});
+
+var editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
+mode: "{{ task.language|lower }}",
+extraKeys: {
+        "Ctrl-Space": "autocomplete"
+    },
+lineNumbers: true,
+styleActiveLine: true,
+gutters: ["breakpoints", "CodeMirror-linenumbers"],
+autoCloseBrackets: true
+});
+editor.setSize("100%", "550px");
+
+document.getElementById('theme-selector').addEventListener('change', function() {
+    var selectedTheme = this.value;
+    editor.setOption("theme", selectedTheme);
+    // Tallenna valittu teema localStorage-muistiin
+    localStorage.setItem('selectedTheme', selectedTheme);
+    
+    // Lähetä AJAX-pyyntö Djangolle tallentaaksesi teeman
+    $.ajax({
+        url: '/save_editor_theme/',  // vaihda tarvittaessa oikeaan URL-osoitteeseen
+        type: 'post',
+        headers: {'X-CSRFToken': getCookie('csrftoken')},
+        data: {
+            'theme': selectedTheme
+        },
+        success: function(response){
+            if(response.status === 'success') {
+                console.log('Teema tallennettu onnistuneesti.');
+            } else {
+                console.error('Virhe tallennettaessa teemaa:', response.message);
+            }
+        }
+    });
+});
+
+  function saveSuccesCode(code) {
+$.ajax({
+  url: '/save-code/',  // change this to your save code endpoint
+  type: 'post',
+  headers: {'X-CSRFToken': getCookie('csrftoken')},
+  data: {
+      'code': code,
+      'task_id': "{{ task.id }}"
+  },
+}).done(function() {
+  Swal.fire(
+      'Onneksi olkoon!',
+      'Koodisi tuotti oikean tuloksen ja se tallenettiin.',
+      'success'
+  ).then((result) => {
+    updateTaskStatus('solved');
+    saveSuccesCode(code);
+       
+      if (result.isConfirmed) {
+       
+          window.location.href = "{% url 'main_app:review_task' task.id %}";
+
+      }
+  });
+}).fail(function() {
+  // Voit lisätä käsittelyn epäonnistuneille pyynnöille tässä
+});
+}
+document.getElementById('run-code-button').addEventListener('click', function() {
+    var code = editor.getValue(); // Ota koodin arvo tässä
+    editor.clearGutter('breakpoints');
+
+    const inputRegex = /input\(["']?(.*?)["']?\)/g;
+    let inputs = [];
+    let match;
+    let allInputsCollected = true;
+
+    while ((match = inputRegex.exec(code)) !== null) {
+        let promptMessage = match[1] ? match[1] : "Syötä arvo input-kutsulle:";
+        let userInput = prompt(promptMessage);
+        if (userInput === null) { 
+            allInputsCollected = false;
+            break; 
+        }
+        inputs.push(userInput);
+    }
+       // Testi alert, joka tulostaa kerätyt syötteet
+      // alert("Kerätyt syötteet: " + inputs.join(", "));
+
+
+    if (!allInputsCollected) {
+        alert("Koodin suoritus peruutettu. Kaikkia syötteitä ei annettu.");
+        return; 
+    }
+
+    var headers = {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken')
+    };
+
+    fetch('/run-code-ano/', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({
+            code: code, 
+            language: "{{ task.language|lower }}",
+            user_inputs: inputs // Lähetä käyttäjän syötteet palvelimelle
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        var consoleElement = document.getElementById('consoleElement');
+        if (data.error) {
+            consoleElement.innerHTML = data.error.replace(/\n/g, '<br>');
+            consoleElement.style.color = 'red';
+            Swal.fire('Hups!', 'Koodissasi on virhe. Yritä uudelleen.', 'error');
+        } else {
+            Swal.fire('Onnistui!', 'Koodisi suoritettiin onnistuneesti.', 'success').then((result) => {
+                if (result.isConfirmed) {
+                    consoleElement.innerHTML = "Ohjelman tuloste:<br>" + data.output.replace(/\n/g, '<br>');
+                    consoleElement.style.color = 'green'; 
+                }
+            });
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+
+document.getElementById('save-code-button').addEventListener('click', function() {
+var code = editor.getValue();
+$.ajax({
+  url: '/save-code/',  // change this to your save code endpoint
+  type: 'post',
+  headers: {'X-CSRFToken': getCookie('csrftoken')},
+  data: {
+      'code': code,
+      'task_id': "{{ task.id }}"
+  },
+  success: function(response){
+      Swal.fire(
+          'Koodisi tallenettu', 
+          '',  
+          'success'
+      )
+  }
+});
+});
+
+// Lisää tämä kohta olemassa olevan "run-code-button" kuuntelijan alapuolelle.
+document.getElementById('console-run-code-button').addEventListener('click', function() {
+    var code = editor.getValue();
+    editor.clearGutter('breakpoints');
+
+    fetch('/run-code-ano/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: 'code=' + encodeURIComponent(code) + '&language=' + encodeURIComponent("{{ task.language|lower }}")
+    })
+    .then(response => response.json())
+    .then(data => {
+        var consoleElement = document.getElementById('consoleElement');
+
+        if (data.error) {
+            let errorMessage = data.error;
+            consoleElement.innerHTML = errorMessage;
+
+            if (errorMessage.includes("TestFailed:")) {
+                Swal.fire(
+                    'Hups!',
+                    'Yksi tai useampi testi epäonnistui. Tarkista koodisi.',
+                    'error'
+                );
+            } else {
+                let lineNumber = parseInt(errorMessage.split("line ")[1]);
+                if (isNaN(lineNumber)) {
+                    lineNumber = 0;
+                }
+                consoleElement.style.color = 'red';
+                editor.setGutterMarker(lineNumber - 1, 'breakpoints', makeMarker(errorMessage));
+
+                Swal.fire(
+                    'Hups!',
+                    'Koodissasi on virhe. Yritä uudelleen.',
+                    'error'
+                );
+            }
+        } else {
+            updateTaskStatus('solved');
+            saveSuccesCode(code);
+        }
+    });
+});
+
+// Lisää tämä kohta olemassa olevan "save-code-button" kuuntelijan alapuolelle.
+document.getElementById('console-save-code-button').addEventListener('click', function() {
+    var code = editor.getValue();
+    $.ajax({
+      url: '/save-code/',  // change this to your save code endpoint
+      type: 'post',
+      headers: {'X-CSRFToken': getCookie('csrftoken')},
+      data: {
+          'code': code,
+          'task_id': "{{ task.id }}"
+      },
+      success: function(response){
+          Swal.fire(
+              'Koodisi tallenettu', 
+              '',  
+              'success'
+          )
+      }
+    });
+});
+
+
+
+function makeMarker(errorMessage) {
+var marker = document.createElement("div");
+marker.style.color = "#822";
+marker.innerHTML = "●";
+marker.title = errorMessage;
+marker.style.fontSize = '30px'; 
+
+return marker;
+}
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+

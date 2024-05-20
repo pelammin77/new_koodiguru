@@ -1,0 +1,30 @@
+
+.profile-info {
+    margin-bottom: 20px;
+}
+
+.level-icon {
+    width: 150px; /* tai haluamasi koko */
+    height: 150px; /* tee tästä sama kuin leveys, jotta saat ympyrän */
+    border-radius: 50%; /* Tämä tekee elementistä pyöreän */
+    display: block;
+    object-fit: cover; /* Varmistaa, että kuva peittää koko elementin alueen säilyttäen mittasuhteensa */
+    display: block;
+    margin: 20px 0;
+}
+
+.user-level {
+    display: flex;
+    align-items: center;
+}
+
+.user-level p {
+    margin-right: 10px;
+}
+.progress{
+    height: 20px;
+}
+
+.progress-bar{
+    height: auto;
+}

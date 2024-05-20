@@ -1,0 +1,35 @@
+{% extends 'main_app/base.html' %}
+{% block title %}
+    Muokkaa profiilia - KoodiGuru
+{% endblock %}
+
+{% block content %}
+    <div class="centered-wrapper">
+        <div class="form-container register-form">
+            <form method="post">
+                {% csrf_token %}
+                <h2>Muokkaa profiilia</h2>
+                <label for="{{ form.first_name.id_for_label }}">Etunimi:</label>
+                {{ form.first_name }}
+                <br>
+                <label for="{{ form.last_name.id_for_label }}">Sukunimi:</label>
+                {{ form.last_name }}
+                <br>
+                <label for="{{ form.email.id_for_label }}">Sähköposti:</label>
+                {{ form.email }}
+                <br>
+                <label for="{{ password_form.password.id_for_label }}">Anna salasana:</label>
+                {{ password_form.password }}
+                <br>
+                
+                <button type="submit" class="register-button">Päivitä profiili</button>
+                <div class="form-group mt-3">
+                    <a href="{% url 'main_app:profile' %}">Takaisin profiiliin</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+
+

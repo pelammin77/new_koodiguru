@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% load static %}
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main_styles.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body  class="d-flex flex-column" style="min-height: 100vh;">
+
+    {% include 'main_app/navi.html' %}
+    {% include 'main_app/messages.html' %}
+ 
+    <div class="container flex-grow-1">
+        {% block content %}{% endblock %}
+    </div>
+
+    {% include 'main_app/footer.html' %}
+
+
+    <script type="text/javascript">
+        window.onpageshow = function(event) {
+            if (event.persisted) {
+                window.location.reload() 
+            }
+        };
+        </script>
+
+
+
+</body>
+</html>

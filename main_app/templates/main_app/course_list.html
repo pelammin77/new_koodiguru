@@ -1,0 +1,44 @@
+{% extends 'main_app/base.html' %}
+{% block title %}
+    KoodiGuru - Kurssit
+    {% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/course_list_style.css' %}">
+
+<h1>Kurssit</h1>
+<hr>
+<br>
+<div class="row">
+    {% for course in courses %}
+    <div class="col-md-6 mb-4"> <!-- Lisätty alamarginaali (mb-4) -->
+        <div class="card shadow-sm" style="padding: 10px;">
+            <div class="card-body">
+                <img src="{{ course.courseLogo.url }}" alt="{{ course.courseTitle }} logo" class="card-img-top" style="max-width: 200px; max-height: 200px; margin-bottom: 15px;">
+
+                <h5 class="card-title">{{ course.courseTitle }}</h5>
+                <p class="card-text">{{ course.courseDescription }}</p>
+                <p class="card-text"><strong>Tutoriaalien määrä: </strong>{{ course.num_tutorials }}</p>
+                <p class="card-text"><strong>Tehtävien määrä: </strong>{{ course.num_tasks }}</p>
+                <p class="card-text"><strong>Esitiedot: </strong>{{course.prerequisites}}</p>
+                {% if course.is_premium %}
+                <p class="card-text text-danger"><strong>Premium Kurssi</strong></p>
+                {% endif %}
+                
+                <a href="{% url 'main_app:course_detail' course.id %}" class="btn btn-primary mr-2">Siirry kurssiin</a>
+                {% if course.video_url %}
+                <a href="{{ course.video_url }}" class="btn btn-info" target="_blank">Kurssin esittelyvideo</a>
+                {% endif %}
+            </div>
+            {% if request.user.is_authenticated and request.user.role == 'student' and course.id not in user_courses %}
+            <a href="{% url 'main_app:add_course_to_user' course.id %}" class="btn btn-outline-primary mb-2">Lisää kurssi suosikkeihin</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<br>
+<br>
+{% endblock %}
+
