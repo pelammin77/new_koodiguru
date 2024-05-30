@@ -248,6 +248,30 @@ Vaikka koodin suoritus REST API:n kautta onnistuu, testikoodin suorittamisessa o
 - **execution_utils.py** - Apufunktiot koodin suorittamisen tukemiseen.
 
 
+### `code_runner/execution_utils.py` - Moduuli koodin suorittamiseen
+
+`execution_utils.py` on osa `code_runner`-sovellusta, ja se sisältää keskeiset toiminnot käyttäjän lähettämän koodin suorittamiseksi turvallisesti. Tämä moduuli tukee useita ohjelmointikieliä, kuten Python, C ja C++. Alla on selostus moduulin päätoiminnoista:
+
+#### Yleiskatsaus
+
+- `execute_code`: Pääfunktio, joka valitsee kielen perusteella suoritettavan funktion. Tukee tällä hetkellä Pythonia, C:tä ja C++:aa.
+- `execute_python_code`: Suorittaa Python-koodin ja valinnaisen testikoodin.
+- `execute_c_code`: Tyhjä funktio, joka on tarkoitettu C-koodin suorittamiseen. Ei vielä toteutettu
+- `execute_cpp_code`: Tyhjä funktio, joka on tarkoitettu C++-koodin suorittamiseen. ei vielä toteutettu 
+
+#### Tärkeät toiminnot
+
+##### `execute_python_code`
+
+Tämä funktio on suunniteltu suorittamaan Python-koodia. Se käyttää `func_timeout`-kirjastoa koodin suorituksen aikarajoihin. Funktio ottaa vastaan kolme parametria:
+
+- `code`: Suoritettava koodi.
+- `inputs`: Lista syötteistä, jotka välitetään koodille.
+- `test_code`: Testikoodi, joka suoritetaan pääkoodin jälkeen.
+
+Koodi suoritetaan mukautetussa ympäristössä, jossa `input`-funktiota on muokattu syöttämään arvoja `inputs`-listasta. Tulostus uudelleenohjataan, jotta se voidaan tallentaa ja palauttaa käyttäjälle. Jos testikoodi annetaan, se suoritetaan, ja testitulokset tallennetaan tulokseen
+
+
 ## Vaatimukset
 
 - Python 3
