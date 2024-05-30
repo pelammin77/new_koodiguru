@@ -269,7 +269,41 @@ Tämä funktio on suunniteltu suorittamaan Python-koodia. Se käyttää `func_ti
 - `inputs`: Lista syötteistä, jotka välitetään koodille.
 - `test_code`: Testikoodi, joka suoritetaan pääkoodin jälkeen.
 
-Koodi suoritetaan mukautetussa ympäristössä, jossa `input`-funktiota on muokattu syöttämään arvoja `inputs`-listasta. Tulostus uudelleenohjataan, jotta se voidaan tallentaa ja palauttaa käyttäjälle. Jos testikoodi annetaan, se suoritetaan, ja testitulokset tallennetaan tulokseen
+Koodi suoritetaan mukautetussa ympäristössä, jossa `input`-funktiota on muokattu syöttämään arvoja `inputs`-listasta. Tulostus uudelleenohjataan, jotta se voidaan tallentaa ja palauttaa käyttäjälle. Jos testikoodi annetaan, se suoritetaan, ja testitulokset tallennetaan tulokseen.
+
+### `code_runner/views.py` - API Rajapinnan Käsittely
+
+`views.py` sisältää määritelmän `ExecuteCodeView`-luokalle, joka on osa `code_runner`-sovellusta. Tämä luokka käsittelee API-kutsut, jotka liittyvät koodin suorittamiseen. Käyttäen Django Rest Frameworkin toiminnallisuutta, tämä luokka mahdollistaa koodin suorittamisen turvallisesti ja tehokkaasti.
+
+#### `ExecuteCodeView`
+
+##### Metodit
+
+- `post`: Käsittelee POST-pyynnöt, joissa lähetetään koodia suoritettavaksi. Tämä metodi ottaa vastaan koodin, syötteet, ohjelmointikielen ja mahdollisen testikoodin. 
+
+##### Koodin ja syötteiden käsittely
+
+- Kun POST-pyyntö saapuu, metodi ottaa vastaan koodin, syötteet, valitun ohjelmointikielen ja testikoodin käyttäjän syötteistä. 
+- Metodi tarkistaa, että tarvittavat tiedot on annettu, ja palauttaa virheen, jos jokin tarvittava tieto puuttuu.
+- Hyödyntää `execute_code`-funktiota `execution_utils.py`-tiedostosta koodin suorittamiseen valitulla ohjelmointikielellä.
+  
+##### Virheiden käsittely
+
+- Jos koodi puuttuu tai kieli puuttuu pyynnöstä, palautetaan HTTP 400 Bad Request -virheilmoitus.
+- Virheet koodin suorituksessa (esim. aikakatkaisu tai käännösvirheet) palautetaan käyttäjälle selkeästi.
+
+##### Vastauksen palauttaminen
+
+- Palauttaa `Response`-objektin, joka sisältää suorituksen tuloksen tai virheet JSON-muodossa.
+
+### Esimerkki
+
+Tässä on esimerkki siitä, miten `ExecuteCodeView` käsittelee POST-pyyntöä:
+
+1. Käyttäjä lähettää POST-pyynnön sisältäen koodin, syötteet, kielen ja mahdollisen testikoodin.
+2. `ExecuteCodeView` validoi syötteen.
+3. Suorittaa koodin valitulla ohjelmointikielellä käyttäen `execute_code`-funktiota.
+4. Palauttaa suorituksen tulokset tai virheet JSON-muodossa.
 
 
 ## Vaatimukset
