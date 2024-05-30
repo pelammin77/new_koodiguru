@@ -8,7 +8,7 @@ Tervetuloa Koofiguruun, Django-pohjaiseen interaktiiviseen oppimisympäristöön
 ### Projektin Juuressa Olevat Tiedostot ja Hakemistot
 
 - **code_runner/**: Hakemisto, joka sisältää koodiajon hallintaan liittyvät skriptit ja moduulit.
-- **koodiguru_pilot/**: Hakemisto, joka voi sisältää KoodiGuruun liittyviä tiedostoja tai testiversioita.
+- **koodiguru_pilot/**: Hakemisto, joka voi sisältää KoodiGururun settings liittyviä tiedostoja tai testiversioita.
 - **main_app/**: Hakemisto, joka sisältää Django-sovelluksen päämoduulit, kuten models, views, ja templates.
 - **staticfiles/**: Hakemisto, jossa säilytetään staattisia tiedostoja kuten CSS, JavaScript ja kuvat.
 
