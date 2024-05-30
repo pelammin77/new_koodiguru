@@ -167,6 +167,31 @@ Useat näkymät vaativat käyttäjän olevan kirjautunut sisään (`login_requir
 
 
 
+### main_app/code_runner.py
+
+`code_runner.py`-moduli mahdollistaa käyttäjän kirjoittaman koodin suorittamisen turvallisessa ympäristössä. Tämä moduuli sisältää funktioita, jotka käsittelevät koodin ajamisen, syötteiden hallinnan ja potentiaalisten virheiden käsittelyn.
+
+#### Toiminnot
+
+- **process_code**: Suorittaa annetun koodin ja ottaa vastaan valinnaisia syötteitä sekä tehtävän, johon koodi liittyy. Tämä funktio myös valvoo koodin suoritusajan, jotta se ei ylitä määriteltyä aikarajaa.
+
+  - **Parametrit**:
+    - `code`: Käyttäjän syöttämä koodi, joka suoritetaan.
+    - `inputs`: Lista syötteistä, jotka toimitetaan koodille.
+    - `task`: Valinnainen `Task`-olio, johon suoritettava koodi voi liittyä.
+    
+  - **Toiminnallisuus**:
+    - Suorittaa Python-koodin turvallisessa ympäristössä, käyttäen `exec`-funktiota.
+    - Käyttää `func_timeout`-kirjastoa aikakatkaisun hallintaan, estäen koodin suorittamisen yli määritellyn ajan (1 sekunti).
+    - Ottaa huomioon mahdolliset syötteet, joita koodi saattaa pyytää suorituksen aikana.
+    - Käsittelee ja palauttaa mahdolliset virheet tai normaalin suorituksen tulosteen.
+  
+  - **Turvallisuus**:
+    - Koodi suoritetaan rajatussa ympäristössä, joka estää pääsyn kriittisiin järjestelmäresursseihin.
+    - Virheet ja poikkeukset käsitellään turvallisesti ja palautetaan käyttäjälle ymmärrettävässä muodossa.
+
+
+
 ## Vaatimukset
 
 - Python 3
