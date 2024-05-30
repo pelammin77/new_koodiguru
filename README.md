@@ -4,7 +4,29 @@ Tervetuloa Koofiguruun, Django-pohjaiseen interaktiiviseen oppimisympäristöön
 
 ## Projektin Rakenne ja tiedostot 
 
-Tässä on yleiskatsaus Koofiguru-projektin tiedostorakenteesta:
+
+### Projektin Juuressa Olevat Tiedostot ja Hakemistot
+
+- **code_runner/**: Hakemisto, joka sisältää koodiajon hallintaan liittyvät skriptit ja moduulit.
+- **koodiguru_pilot/**: Hakemisto, joka voi sisältää KoodiGuruun liittyviä tiedostoja tai testiversioita.
+- **main_app/**: Hakemisto, joka sisältää Django-sovelluksen päämoduulit, kuten models, views, ja templates.
+- **staticfiles/**: Hakemisto, jossa säilytetään staattisia tiedostoja kuten CSS, JavaScript ja kuvat.
+
+- **.env.example**: Esimerkkitiedosto ympäristömuuttujien määrittelemiseen.
+- **.gitignore**: Tiedosto, joka määrittelee git-versionhallinnan ohittamat tiedostot ja hakemistot.
+- **Dockerfile**: Docker-konttia varten tarvittavat määritykset projektin juuressa.
+- **Dockerfile-Code-runner**: Erillinen Dockerfile koodin ajamiseen tarkoitettua palvelua varten.
+- **Dockerfile-cron**: Dockerfile ajastettujen skriptien suorittamista varten.
+- **README.md**: Projektin README-tiedosto, joka sisältää projektin dokumentaation.
+- **docker-compose.yml**: Docker Compose -määritystiedosto palveluiden hallintaan.
+- **entrypoint.sh**: Skripti, joka suoritetaan kontin käynnistyessä.
+- **manage.py**: Django-projektin hallintaskripti, joka mahdollistaa erilaisten komentojen suorittamisen.
+- **rebuild_and_run.sh**: Skripti, joka auttaa uudelleenrakentamaan ja suorittamaan Docker-kontin. (ei käytetä nykyään käytetään docker-compose.yml)
+- **rebuild_and_run.sh.save**: Varmuuskopio rebuild_and_run.sh-skriptistä.
+- **requirements.txt**: Tiedosto, joka sisältää projektin riippuvuudet, jotka asennetaan pip-komennolla.
+- **sqlite_dump.sql**: SQL-tiedosto, joka sisältää SQLite-tietokannan dumppauksen.
+- **update_points.py**: Python-skripti, joka suorittaa käyttäjäpisteiden päivitystoimintoja.
+
 
 ### main_app/
 - `admin.py` - Tiedosto, jossa määritellään admin-paneelin asetukset.
