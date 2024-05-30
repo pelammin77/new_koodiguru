@@ -2,14 +2,20 @@
 
 Tervetuloa Koofiguruun, Django-pohjaiseen interaktiiviseen oppimisympäristöön ohjelmoinnin opetteluun. Tämä alusta on suunniteltu tarjoamaan opiskelijoille käytännönläheinen kokemus ohjelmoinnin eri osa-alueilta.
 
-## Ominaisuudet/tiedostot 
+## Projektin Rakenne
 
+Tässä on yleiskatsaus Koofiguru-projektin tiedostorakenteesta:
 
-## Asennusohjeet
+### main_app/
+- `admin.py` - Tiedosto, jossa määritellään admin-paneelin asetukset.
+- `forms.py` - Tiedosto, joka sisältää Django-lomakkeiden määritelmiä.
+- `models.py` - Tiedosto, jossa määritellään Django-tietomallit.
+- `urls.py` - Tiedosto URL-reittien määrittelyyn.
+- `views.py` - Tiedosto, joka sisältää näkymälogiikan.
+- `templates/` - Hakemisto, joka sisältää Django-mallipohjat.
+- `templatetags/` - Hakemisto mukautettuja mallitagien määrittelyille. 
 
-Seuraavat ohjeet auttavat sinua asentamaan ja käynnistämään Koofiguru-sovelluksen omalla koneellasi.
-
-### Esivaatimukset
+## Vaatimukset
 
 - Python 3
 - Django
