@@ -94,6 +94,79 @@ Tiedosto määrittää URL-reitit Koofiguru-sovellukseen ja linkittää ne vasta
 Jos sovellus on käynnissä kehitysmoodissa (`DEBUG = True`), media-tiedostot palvellaan suoraan Django-sovelluksesta.
 
 
+### main_app/views.py
+
+Tiedosto sisältää Django-näkymät, jotka hoitavat sovelluksen eri sivujen ja toimintojen pyyntöjen käsittelyn.
+
+#### Näkymät ja niiden toiminnot
+
+- **coming_soon**:
+  - Näyttää "Tulossa pian" -sivun.
+  
+- **home**:
+  - Näyttää kotisivun.
+
+- **purchase_premium**:
+  - Näyttää sivun, jolla käyttäjät voivat ostaa premium-jäsenyyden.
+
+- **register_view**:
+  - Rekisteröintisivu, jossa uudet käyttäjät voivat luoda käyttäjätunnuksen.
+  - Lähettää aktivointi-sähköpostin käyttäjälle rekisteröinnin jälkeen.
+
+- **activate_account**:
+  - Aktivoi käyttäjän tilin käyttäen linkkiä, joka sisältää JWT-tokenin.
+
+- **login_view**:
+  - Kirjautumissivu, jossa käyttäjät voivat kirjautua sisään.
+
+- **logout_view**:
+  - Kirjaa käyttäjän ulos ja ohjaa etusivulle.
+
+- **profile**:
+  - Näyttää käyttäjän profiilisivun, jossa on tietoja käyttäjän tasosta ja edistymisestä.
+
+- **edit_profile**:
+  - Sallii käyttäjän päivittää omat profiilitiedot.
+
+- **report_view**:
+  - Raporttinäkymä ylläpitäjille näyttämään käyttäjien tilastoja ja toimintaa.
+
+- **contact**:
+  - Yhteystietosivu, jossa käyttäjät voivat lähettää viestejä ylläpitäjille.
+
+- **post_list** ja **post_detail**:
+  - Näyttää listan blogipostauksista ja yksittäisen blogipostauksen.
+
+- **course_list** ja **course_detail**:
+  - Listaa kaikki kurssit ja näyttää yksityiskohtaiset tiedot valitusta kurssista.
+
+- **tutorial_detail**:
+  - Näyttää yksityiskohtaiset tiedot valitusta tutoriaalista.
+
+- **perform_task** ja **review_task**:
+  - Mahdollistavat tehtävän suorittamisen ja tarkastelemisen.
+
+- **save_code** ja **save_editor_theme**:
+  - Tallentaa käyttäjän kirjoittaman koodin ja valitun editorin teeman.
+
+- **update_task_status_started** ja **update_task_status_solved**:
+  - Päivittää tehtävän tilan aloitetuksi tai ratkaistuksi.
+
+- **search**:
+  - Suorittaa hakutoiminnon kursseille, tehtäville ja tutoriaaleille käyttäjän antaman hakutermin perusteella.
+
+- **send_email**:
+  - Mahdollistaa sähköpostin lähettämisen käyttäjiltä ylläpitäjille.
+
+- **Password Reset Flow**:
+  - Sarja näkymiä, jotka mahdollistavat salasanan nollauksen: `PasswordResetView`, `PasswordResetDoneView`, `PasswordResetConfirmView`, ja `PasswordResetCompleteView`.
+
+#### Autentikointi ja Turvallisuus
+
+Useat näkymät vaativat käyttäjän olevan kirjautunut sisään (`login_required`), ja jotkut vaativat ylläpitäjäoikeuksia (`user_passes_test`). CSRF-suojaus on otettu huomioon kaikissa lomakkeissa ja AJAX-pyynnöissä.
+
+
+
 ## Vaatimukset
 
 - Python 3
