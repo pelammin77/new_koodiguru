@@ -18,3 +18,9 @@ Seuraavat ohjeet auttavat sinua asentamaan ja käynnistämään Koofiguru-sovell
 ### Asennus
 
 1. Kloonaa tämä repositorio:
+
+
+## Tekijä
+
+Petri Lamminaho
+- Sähköposti: [lammpe77@gmail.com](mailto:lammpe77@gmail.com)
