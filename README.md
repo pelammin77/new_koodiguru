@@ -237,7 +237,15 @@ Vaikka koodin suoritus REST API:n kautta onnistuu, testikoodin suorittamisessa o
     - Virheet ja poikkeukset käsitellään turvallisesti ja palautetaan käyttäjälle ymmärrettävässä muodossa.
    
   
+### `code_runner`-app
 
+`code_runner` on Django-app, joka on suunniteltu suorittamaan käyttäjän syöttämää koodia. Tässä appissa on seuraavat pääkomponentit:
+
+- **models.py** - Määrittelee tietokantamallit, jotka tallentavat koodin suorituksen tulokset ja muut tarvittavat tiedot.
+- **views.py** - Käsittelylogiikka, joka ottaa vastaan koodin, suorittaa sen ja palauttaa tulokset käyttäjälle.
+- **urls.py** - Määrittää URL-reitit, jotka ovat käytössä `code_runner`-sovelluksessa.
+- **tests.py** - Sisältää yksikkötestit sovelluksen toiminnan varmistamiseksi.
+- **execution_utils.py** - Apufunktiot koodin suorittamisen tukemiseen.
 
 
 ## Vaatimukset
