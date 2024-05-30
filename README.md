@@ -166,6 +166,30 @@ Tiedosto sisältää Django-näkymät, jotka hoitavat sovelluksen eri sivujen ja
 Useat näkymät vaativat käyttäjän olevan kirjautunut sisään (`login_required`), ja jotkut vaativat ylläpitäjäoikeuksia (`user_passes_test`). CSRF-suojaus on otettu huomioon kaikissa lomakkeissa ja AJAX-pyynnöissä.
 
 
+### Koodin suorittaminen REST API:n kautta
+
+`views.py` sisältää toiminnallisuuden koodin suorittamiselle REST API:n kautta. Tämä mahdollistaa koodin ajamisen etäpalvelimella ja on tärkeä osa sovelluksen toiminnallisuutta, kun käyttäjät suorittavat koodia interaktiivisesti.
+
+#### Toiminnot
+
+- **process_code_rest_api**:
+  - Suorittaa annetun koodin REST API:n kautta ja käsittelee koodin syötteet sekä potentiaaliset testikoodit, jotka liittyvät tehtävään.
+  - **Parametrit**:
+    - `code`: Suoritettava koodi.
+    - `inputs`: Lista syötteistä, jotka toimitetaan koodille.
+    - `task_id`: Tehtävän tunniste, johon koodi voi liittyä.
+    - `language`: Koodin ohjelmointikieli.
+
+  - **Toiminnallisuus**:
+    - Lähettää koodin, syötteet ja testikoodin JSON-muodossa etäpalvelimelle suoritettavaksi.
+    - Käsittelee vastauksen ja palauttaa tuloksen JSON-muodossa.
+
+#### Tila
+
+Vaikka koodin suoritus REST API:n kautta onnistuu, testikoodin suorittamisessa on vielä kehitettävää. Tämä tarkoittaa, että vaikka perus suoritus toimii, niin automaattiset testit, jotka varmistavat koodin oikeellisuuden, eivät toimi odotetulla tavalla.
+
+
+
 
 ### main_app/code_runner.py
 
@@ -189,6 +213,8 @@ Useat näkymät vaativat käyttäjän olevan kirjautunut sisään (`login_requir
   - **Turvallisuus**:
     - Koodi suoritetaan rajatussa ympäristössä, joka estää pääsyn kriittisiin järjestelmäresursseihin.
     - Virheet ja poikkeukset käsitellään turvallisesti ja palautetaan käyttäjälle ymmärrettävässä muodossa.
+   
+  
 
 
 
