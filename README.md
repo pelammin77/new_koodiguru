@@ -311,7 +311,26 @@ main_app joka sisältää pääsivuston templatet. Seuraavat templatet löytyvä
 - **base.html** - Peruspohja HTML-tiedosto, jota muut templatet perivät.
 - **coming_soon.html** - Coming soon sivu
 - **contact.html** - Yhteystietosivu, jossa käyttäjät voivat ottaa yhteyttä.
-- 
+-  **course_detail.html** - Näyttää yksittäisen kurssin tiedot.
+- **course_list.html** - Näyttää luettelon kursseista.
+- **edit_profile.html** - Profiilin muokkaussivu.
+- **footer.html** - Sivun alatunniste.
+- **index.html** - Pääsivun template.
+- **login.html** - Sisäänkirjautumissivu.
+- **messages.html** - Viestisivu.
+- **navi.html** - Navigointipalkki.
+- **perform_task.html** - Tehtävän suorittamissivu.
+- **perform_task_ano.html** - Anonyymin käyttäjän(jos ei kirjautunut) tehtävän suorittamissivu.
+- **post_detail.html** -  Blogi postaus sivu .
+- **post_list.html** - Blogi postauksien lista sivu
+- **profile.html** - Käyttäjän profiili sivu
+- **purchase_premium.html** - Premium ppaketin osto sivu
+- **register.html** - Käyttäjän rekisteröinti sivu
+- **report.html** - Ylläpitäjän raportointisivu
+- **review_task.html** - suoritetun tehtävän tarkastelu sivu
+- **search_result.html** - Hakutulosten sivu
+- **tutorial_detail.html** - Yksittäisen tutoriaalin template
+   
 
 
 
