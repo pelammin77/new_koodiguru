@@ -349,14 +349,18 @@ Seuraavat templatetagit löytyvät `main_app/templatetags/`-hakemistosta:
 - **dict_tools.py** - Sisältää mukautetun Django-filterin sanakirjojen käsittelyyn templateissa.
 
 
-
-## Vaatimukset
-
-- Python 3
-- Django
-- Muut riippuvuudet, jotka löytyvät `requirements.txt` -tiedostosta
-
 ### Asennus
+
+
+### Esivaatimukset
+
+- Python 3 asennettuna
+- Git asennettuna
+
+### Vaihe 1: Repositorion kloonaaminen
+
+Kloonaa tämä repositorio paikalliselle koneellesi:
+
 
 1. Kloonaa tämä repositorio:
 
