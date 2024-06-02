@@ -400,6 +400,27 @@ python manage.py runserver
 http://127.0.0.1:8000/1
 
 
+
+### Dockerin käyttö
+
+Jos haluat käyttää Dockeria, seuraa näitä ohjeita:
+#### Vaihe 1: Dockerin asennus
+
+Asenna Docker Desktop Dockerin virallisilta sivuilta.
+#### Vaihe 2: Docker-konttien rakentaminen ja käynnistäminen
+
+##### Rakenna ja käynnistä Docker-kontit:
+
+docker-compose build
+docker-compose up
+
+#### Vaihe 3: Sovelluksen käyttäminen
+
+Avaa selain ja siirry osoitteeseen:
+
+http://localhost:8000/
+
+
 ## Tekijä
 
 Petri Lamminaho
