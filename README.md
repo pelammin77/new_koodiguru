@@ -342,6 +342,13 @@ Seuraavat templatet löytyvät `main_app/templates/registration/`-hakemistosta:
 - **registration_confirm_email_template.html** - Rekisteröitymisen vahvistussähköpostin templaatti.
 - **registration_confirm_sent.html** - Rekisteröitymisen vahvistuslähetetty-sivu.
 
+### Templatetagit
+
+Seuraavat templatetagit löytyvät `main_app/templatetags/`-hakemistosta:
+
+- **dict_tools.py** - Sisältää mukautetun Django-filterin sanakirjojen käsittelyyn templateissa.
+
+
 
 ## Vaatimukset
 
