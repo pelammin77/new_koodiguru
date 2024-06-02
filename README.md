@@ -331,7 +331,16 @@ main_app joka sisältää pääsivuston templatet. Seuraavat templatet löytyvä
 - **search_result.html** - Hakutulosten sivu
 - **tutorial_detail.html** - Yksittäisen tutoriaalin template
    
+Seuraavat templatet löytyvät `main_app/templates/registration/`-hakemistosta:
 
+- **password_change_template.html** - Salasanan vaihtosivu.
+- **password_reset_complete_template.html** - Salasanan vaihdon valmistumissivu.
+- **password_reset_confirm_template.html** - Salasanan vaihdon vahvistussivu.
+- **password_reset_done_template.html** - Salasanan vaihdon ilmoitussivu.
+- **password_reset_email_template.html** - Sähköpostitemplaatti salasanan vaihdolle.
+- **password_reset_template.html** - Salasanan palautussivu.
+- **registration_confirm_email_template.html** - Rekisteröitymisen vahvistussähköpostin templaatti.
+- **registration_confirm_sent.html** - Rekisteröitymisen vahvistuslähetetty-sivu.
 
 
 ## Vaatimukset
