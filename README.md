@@ -305,6 +305,15 @@ Tässä on esimerkki siitä, miten `ExecuteCodeView` käsittelee POST-pyyntöä:
 3. Suorittaa koodin valitulla ohjelmointikielellä käyttäen `execute_code`-funktiota.
 4. Palauttaa suorituksen tulokset tai virheet JSON-muodossa.
 
+## template-tiedostot `main_app`
+main_app joka sisältää pääsivuston templatet. Seuraavat templatet löytyvät `main_app/templates/main_app/`-hakemistosta:
+
+- **base.html** - Peruspohja HTML-tiedosto, jota muut templatet perivät.
+- **coming_soon.html** - Coming soon sivu
+- **contact.html** - Yhteystietosivu, jossa käyttäjät voivat ottaa yhteyttä.
+- 
+
+
 
 ## Vaatimukset
 
