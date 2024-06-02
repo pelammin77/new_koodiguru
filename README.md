@@ -361,7 +361,7 @@ Seuraavat templatetagit löytyvät `main_app/templatetags/`-hakemistosta:
 
 git clone https://github.com/pelammin77/new_koodiguru.git
 
-#### Voit myös käyttää/luoda  virtuaaliympäristöä tai Anacondaa
+#### Voit myös käyttää virtuaaliympäristöä tai Anacondaa
 
 ### Vaihe 2: Riippuvuuksien asentaminen
 Asenna tarvittavat Python-kirjastot:
