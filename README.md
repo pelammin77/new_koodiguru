@@ -31,7 +31,7 @@ Tervetuloa Koofiguruun, Django-pohjaiseen interaktiiviseen oppimisympäristöön
 ### main_app/
 - `admin.py` - Tiedosto, jossa määritellään admin-paneelin asetukset.
 - `forms.py` - Tiedosto, joka sisältää Django-lomakkeiden määritelmiä.
-- `models.py` - Tiedosto, jossa määritellään Django-tietomallit.
+§- `models.py` - Tiedosto, jossa määritellään Django-tietomallit.
 - `urls.py` - Tiedosto URL-reittien määrittelyyn.
 - `views.py` - Tiedosto, joka sisältää näkymälogiikan.
 - `templates/` - Hakemisto, joka sisältää Django-mallipohjat.
@@ -359,10 +359,45 @@ Seuraavat templatetagit löytyvät `main_app/templatetags/`-hakemistosta:
 
 ### Vaihe 1: Repositorion kloonaaminen
 
-Kloonaa tämä repositorio paikalliselle koneellesi:
+git clone https://github.com/pelammin77/new_koodiguru.git
 
+#### Voit myös käyttää/luoda  virtuaaliympäristöä tai Anacondaa
 
-1. Kloonaa tämä repositorio:
+### Vaihe 2: Riippuvuuksien asentaminen
+Asenna tarvittavat Python-kirjastot:
+pip install -r requirements.txt
+
+### Vaihe 3: Tietokannan konfigurointi
+##### Varmista, että settings.py-tiedostossa on seuraavat asetukset käyttämään SQLite-tietokantaa:
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+### Vaihe 4: Tietokantamigraatioiden suorittaminen
+
+#### Suorita tietokantamigraatiot:
+python manage.py makemigrations
+python manage.py migrate
+
+### Vaihe 5: Superuserin luominen
+#### Luo superuser hallintapaneelia varten:
+python manage.py createsuperuser
+
+Seuraa kehotteita ja anna käyttäjätiedot.
+### Vaihe 6: Kehityspalvelimen käynnistäminen
+
+#### Käynnistä kehityspalvelin:
+python manage.py runserver
+
+### Vaihe 7: Sovelluksen käyttäminen
+
+#### Avaa selain ja siirry osoitteeseen:
+
+http://127.0.0.1:8000/1
 
 
 ## Tekijä
