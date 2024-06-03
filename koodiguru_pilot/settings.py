@@ -16,25 +16,27 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent # Quick-start development settings - unsuitable for production
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
+# Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY =  os.environ.get('SECRET_KEY') #"django-insecure-kl0p_s)%hdt+m%45dp7qur_$@rt@etsv+t)i(313556ex!@a-d"
+SECRET_KEY = os.environ.get('SECRET_KEY', 'your-default-secret-key') 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-
+DEBUG = True
 
 ALLOWED_HOSTS = ["koodiguru.fi", "www.koodiguru.fi", "localhost", "127.0.0.1", "0.0.0.0", "run-code"]
 
 CSRF_TRUSTED_ORIGINS = ["https://koodiguru.fi", "https://www.koodiguru.fi"]
 
-
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-
+CSRF_COOKIE_SECURE = False  # Varmista, että kehityksessä nämä ovat False
+SESSION_COOKIE_SECURE = False  # Varmista, että kehityksessä nämä ovat False
 
 # Application definition
 
@@ -51,8 +53,6 @@ INSTALLED_APPS = [
     'embed_video',
     'code_runner',
     'rest_framework',
-
-
 ]
 
 CKEDITOR_CONFIGS = {
@@ -69,7 +69,6 @@ CKEDITOR_CONFIGS = {
         ],
     },
 }
-
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -101,7 +100,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "koodiguru_pilot.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -112,26 +110,6 @@ DATABASES = {
     }
 }
 
-
-
-import os
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('MYSQL_DATABASE', 'koodiguruDB'),
-        'USER': os.environ.get('MYSQL_USER', 'pete'),
-        'PASSWORD': os.environ.get('MYSQL_PASSWORD', 'oletussalasanasi'),
-        'HOST': 'db',  # Docker Compose -palvelimen nimi
-        'PORT': '3306',
-	'OPTIONS': {
-            'charset': 'utf8mb4',
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
-
-    }
-}
-"""
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -150,7 +128,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -162,16 +139,14 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -181,7 +156,6 @@ AUTH_USER_MODEL = "main_app.User"
 LOGIN_URL = "/login/"
 PROMETHEUS_EXPORT_MIGRATIONS = False
 
-
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -189,7 +163,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'koodiguruoficial@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get('GMAIL_PASSWORD')           #'cvqr jfum hsea ojbv'
+EMAIL_HOST_PASSWORD = os.environ.get('GMAIL_PASSWORD') 
 
 CRON_CLASSES = [
     "main_app.cron.DeleteUnactivatedUsersCronJob",
@@ -199,20 +173,18 @@ CRON_CLASSES = [
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-     'formatters': {  # Määritä tässä viestien formaatti
+    'formatters': {
         'standard': {
             'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
         },
     },
-
     'handlers': {
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': '/app/logs/logMessages.log',
+            'filename': os.path.join(BASE_DIR, 'logs', 'logMessages.log'),  # Määritä tiedostopolku käyttämään BASE_DIR
             'encoding': 'utf-8',
-            'formatter': 'standard',  # Käytä tässä määritettyä formaattia
-
+            'formatter': 'standard',
         },
     },
     'root': {
@@ -220,3 +192,7 @@ LOGGING = {
         'level': 'INFO',
     }
 }
+
+if DEBUG:
+    import mimetypes
+    mimetypes.add_type("text/css", ".css", True)

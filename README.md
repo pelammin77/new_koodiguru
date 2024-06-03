@@ -361,7 +361,7 @@ Seuraavat templatetagit löytyvät `main_app/templatetags/`-hakemistosta:
 
 git clone https://github.com/pelammin77/new_koodiguru.git
 
-#### Voit myös käyttää virtuaaliympäristöä tai Anacondaa
+#### Voit myös käyttää virtuaaliympäristöä tai Anacondaa(suositeltavaa=)
 
 ### Vaihe 2: Riippuvuuksien asentaminen
 Asenna tarvittavat Python-kirjastot:
@@ -377,23 +377,27 @@ DATABASES = {
     }
 }
 
-### Vaihe 4: Tietokantamigraatioiden suorittaminen
+### Vaihe 4: .env-tiedoston luominen
+
+Luo projektin juurihakemistoon .env-tiedosto perustuen .env.example-tiedostoon:
+
+### Vaihe 5: Tietokantamigraatioiden suorittaminen
 
 #### Suorita tietokantamigraatiot:
 python manage.py makemigrations
 python manage.py migrate
 
-### Vaihe 5: Superuserin luominen
+### Vaihe 6: Superuserin luominen
 #### Luo superuser hallintapaneelia varten:
 python manage.py createsuperuser
 
 Seuraa kehotteita ja anna käyttäjätiedot.
-### Vaihe 6: Kehityspalvelimen käynnistäminen
+### Vaihe 7: Kehityspalvelimen käynnistäminen
 
 #### Käynnistä kehityspalvelin:
 python manage.py runserver
 
-### Vaihe 7: Sovelluksen käyttäminen
+### Vaihe 8: Sovelluksen käyttäminen
 
 #### Avaa selain ja siirry osoitteeseen:
 
