@@ -19,3 +19,4 @@ django-embed-video
 djangorestframework>=3.12.4
 djangorestframework-simplejwt>=4.7.2  # Valinnainen, tarpeen mukaan
 pycryptodome
+boto3

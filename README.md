@@ -245,7 +245,7 @@ Vaikka koodin suoritus REST API:n kautta onnistuu, testikoodin suorittamisessa o
 - **views.py** - Käsittelylogiikka, joka ottaa vastaan koodin, suorittaa sen ja palauttaa tulokset käyttäjälle.
 - **urls.py** - Määrittää URL-reitit, jotka ovat käytössä `code_runner`-sovelluksessa.
 - **tests.py** - Sisältää yksikkötestit sovelluksen toiminnan varmistamiseksi.(tällä hetkellä ei testejä toteutettu)
-- **execution_utils.py** - Apufunktiot koodin suorittamisen tukemiseen.
+- **execution_utils.py** - Apufunktiot koodin suorittamiseen.
 
 
 ### `code_runner/execution_utils.py` - Moduuli koodin suorittamiseen
@@ -429,3 +429,201 @@ http://localhost:8000/
 
 Petri Lamminaho
 - Sähköposti: [lammpe77@gmail.com](mailto:lammpe77@gmail.com)
+
+### AWS Lambda Function for Code Execution
+
+The project includes an AWS Lambda function that provides secure code execution capabilities. This function is designed to run Python code in a restricted environment with access to common mathematical and scientific computing libraries.
+
+#### Lambda Function Components
+
+- **lambda_function.py**: The main Lambda handler that processes code execution requests
+  - Implements a restricted execution environment using RestrictedPython
+  - Provides access to safe built-in functions and selected modules
+  - Includes timeout handling to prevent infinite loops
+  - Supports input/output capture and test code execution
+
+#### Features
+
+- **Restricted Environment**: Uses RestrictedPython to create a secure sandbox
+- **Module Access**: Provides safe access to:
+  - `math`: Common mathematical functions
+  - `random`: Random number generation
+  - `numpy`: Scientific computing (via Lambda layer)
+- **Timeout Protection**: Enforces a 3-second execution timeout
+- **Input/Output Handling**: Captures stdout and manages input simulation
+- **Test Code Support**: Can execute additional test code to verify solutions
+
+#### Allowed Functions and Modules
+
+The Lambda function provides access to:
+
+- **Basic Operations**: 
+  - `abs`, `bool`, `int`, `float`, `str`
+  - `len`, `max`, `min`, `sum`, `round`
+
+- **Container Types**:
+  - `list`, `dict`, `set`, `tuple`
+
+- **Iteration**:
+  - `range`, `enumerate`, `zip`
+  - `iter`, `next`
+
+- **Math Module**:
+  - `sin`, `cos`, `tan`, `pi`, `sqrt`
+  - `floor`, `ceil`, `radians`, `degrees`
+  - `pow`, `fabs`
+
+- **Random Module**:
+  - `random`, `randint`, `choice`
+  - `randrange`, `shuffle`
+
+- **NumPy**: Full NumPy module access via Lambda layer
+
+### NumPy Lambda Layer
+
+The project includes a custom AWS Lambda layer that provides NumPy support for the code execution environment.
+
+#### Layer Structure
+
+- **lambda-numpy-layer/**
+  - **requirements.txt**: Specifies NumPy version and dependencies
+  - **python/**: Contains the installed NumPy package
+  
+#### Installation
+
+The NumPy layer must be deployed to AWS Lambda before the main function can use it:
+
+1. Create the layer package:
+   ```bash
+   pip install -r lambda-numpy-layer/requirements.txt -t python/
+   zip -r numpy-layer.zip python/
+   ```
+
+2. Upload the layer to AWS Lambda through the console or CLI
+3. Attach the layer to the main Lambda function
+
+#### Usage
+
+The NumPy layer is automatically available to code executed in the Lambda function. Users can access NumPy functionality through the `np` namespace:
+
+```python
+import numpy as np
+```
+
+### Extending the Lambda Function
+
+#### Adding New Lambda Layers
+
+To add support for additional Python packages through Lambda layers:
+
+1. Create a new layer directory:
+   ```bash
+   mkdir lambda-new-package-layer
+   cd lambda-new-package-layer
+   ```
+
+2. Create a requirements.txt file with the desired packages:
+   ```bash
+   echo "package-name==version" > requirements.txt
+   ```
+
+3. Install the packages:
+   ```bash
+   mkdir python
+   pip install -r requirements.txt -t python/
+   ```
+
+4. Create and upload the layer:
+   ```bash
+   zip -r new-package-layer.zip python/
+   ```
+
+5. Upload to AWS Lambda and attach to the function
+
+#### Adding New Operations
+
+To add new operations or modules to the restricted environment, modify the `RestrictedExecutor` class in `lambda_function.py`:
+
+1. **Add New Module Access**:
+   ```python
+   def __init__(self, debug=False):
+       self.allowed_modules = {
+           'existing_module': {'existing_function'},
+           'new_module': {
+               'allowed_function1',
+               'allowed_function2'
+           }
+       }
+   ```
+
+2. **Add Module to Restricted Globals**:
+   ```python
+   def get_restricted_globals(self):
+       restricted_globals = {
+           # Existing globals...
+       }
+       
+       # Add new module functions
+       new_module_funcs = {}
+       for func_name in self.allowed_modules['new_module']:
+           if hasattr(new_module, func_name):
+               new_module_funcs[func_name] = getattr(new_module, func_name)
+       restricted_globals['new_module'] = new_module_funcs
+       
+       return restricted_globals
+   ```
+
+3. **Add Built-in Functions**:
+   ```python
+   def get_restricted_globals(self):
+       restricted_globals = {
+           '__builtins__': {
+               # Existing builtins...
+               'new_function': new_function,
+           }
+       }
+   ```
+
+#### Security Considerations
+
+When adding new operations:
+
+1. **Evaluate Security**: Carefully consider the security implications of new functions
+2. **Restrict Access**: Only expose necessary functionality
+3. **Test Thoroughly**: Verify that new operations work within the restricted environment
+4. **Resource Limits**: Ensure new operations respect timeout and memory constraints
+5. **Input Validation**: Add appropriate input validation for new functions
+
+#### Testing New Features
+
+Before deploying updates:
+
+1. Test new operations locally using the test environment
+2. Verify timeout handling still works
+3. Check memory usage
+4. Test error handling
+5. Validate that restricted environment security is maintained
+
+Remember to update the documentation when adding new features to help users understand the available functionality.
+
+#### Platform Compatibility Note
+
+The AWS Lambda function runs on Amazon Linux (x86_64 architecture). When building layers or deploying from Apple M1/M2 (ARM64) machines:
+
+1. **Building Layers**: 
+   - Build layers using Docker with x86_64 platform:
+     ```bash
+     docker run --rm -v $(pwd):/var/task public.ecr.aws/lambda/python:3.9 \
+       pip install -r requirements.txt -t python/
+     ```
+   - Or use EC2 instance with x86_64 architecture to build layers
+
+2. **Common Issues**:
+   - Native extensions built on M1/M2 Macs won't work on Lambda
+   - NumPy and other packages with C extensions need x86_64 builds
+   - Use `--platform linux/amd64` flag with Docker when building
+
+3. **Solutions**:
+   - Use Docker to build in x86_64 environment
+   - Download pre-built wheels for x86_64
+   - Build on Intel-based machine or EC2 instance

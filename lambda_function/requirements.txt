@@ -1,0 +1,3 @@
+RestrictedPython==6.3
+numpy==1.24.3  # This will be provided by the lambda layer instead
+func-timeout==4.3.5 

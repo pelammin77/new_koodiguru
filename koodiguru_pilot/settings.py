@@ -38,6 +38,12 @@ CSRF_TRUSTED_ORIGINS = ["https://koodiguru.fi", "https://www.koodiguru.fi"]
 CSRF_COOKIE_SECURE = False  # Varmista, että kehityksessä nämä ovat False
 SESSION_COOKIE_SECURE = False  # Varmista, että kehityksessä nämä ovat False
 
+
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_REGION = os.environ.get('AWS_REGION', 'eu-north-1')
+AWS_LAMBDA_FUNCTION_NAME = os.environ.get('AWS_LAMBDA_FUNCTION_NAME')
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -142,8 +148,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_URL = "/staticfiles/"
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "staticfiles")]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
