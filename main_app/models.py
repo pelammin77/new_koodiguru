@@ -52,7 +52,7 @@ class User(AbstractUser):
     def level_icon_url(self):
         # Määritellään tasojen ja vastaavien ikonien polut
         icons = {
-            0: 'img/user_level_icons/ beginner_level_icon_small.png',
+            0: 'img/user_level_icons/beginner_level_icon_small.png',
             1: 'img/user_level_icons/new_harjoittelija_logo_small.png',
             2: 'img/user_level_icons/kehittaja_logo_small.png',
             3: 'img/user_level_icons/metari_taso_logo_small.png',

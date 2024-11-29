@@ -60,6 +60,10 @@ from .models import (
     Post
 )
 
+from code_runner.lambda_executor import LambdaCodeExecutor
+
+code_executor = LambdaCodeExecutor()
+
 logger = logging.getLogger(__name__)
 import os
 
@@ -626,72 +630,70 @@ def test_code(request):
     if request.method == "POST":
         code = request.POST.get("code", "")
         language = request.POST.get("language", "").lower()
+        debug_mode = request.POST.get("debug", "false").lower() == "true"
+        
         user = request.user
         task_id = request.session.get("task_id")
-        task = Task.objects.get(id=task_id)
-        task_inputs = eval(task.taskInputs)
-
-        # Valitse funktio kielen perusteella
-        if language == "python":
-            #output = run_python_code(code, task_inputs, task)
-            #output = process_code(code, task_inputs, task)
-           # output = process_code_rest_api(code, task_inputs, task)
-             output =  runner.process_code(code, task_inputs, task)
         
-        # Voit lisätä muita kieliä tulevaisuudessa, esim:
-        # elif language == 'cpp':
-        #     output = run_cpp_code(code, task_inputs, task)
-        
-        elif language == "pseudo":
-             return JsonResponse(
-                {"output": ""}
-            )
-        else:
-            return JsonResponse(
-                {"error": f"Unsupported language: {language}", "output": ""}
-            )
+        try:
+            task = Task.objects.get(id=task_id)
+            task_inputs = eval(task.taskInputs)
+            
+            # Get test code
+            test_code = None
+            task_test = TaskTest.objects.filter(task=task).first()
+            if task_test:
+                test_code = task_test.test_code
 
-        logger.info("Käyttäjä %s ajoi koodia tehtävässä %s", user.username, task_id)
-        return output
-		
-	
+            if language == "python":
+                output = code_executor.execute_code(
+                    code=code,
+                    inputs=task_inputs,
+                    test_code=test_code,
+                    debug=debug_mode
+                )
+                logger.info("Käyttäjä %s ajoi koodia tehtävässä %s", user.username, task_id)
+                return output
+            elif language == "pseudo":
+                return JsonResponse({"output": ""})
+            else:
+                return JsonResponse(
+                    {"error": f"Unsupported language: {language}", "output": ""}
+                )
+        except Exception as e:
+            logger.error(f"Error in test_code: {str(e)}")
+            return JsonResponse({
+                "error": str(e), 
+                "output": "",
+                "debug_info": traceback.format_exc() if debug_mode else None
+            })
+        
 @csrf_exempt
 @require_http_methods(["POST"])
 def run_code_ano(request):
-    # Puretaan JSON-pyynnön runko
     try:
         data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return JsonResponse({"error": "Virheellinen JSON", "output": ""})
+        code = data.get("code", "")
+        language = data.get("language", "").lower()
+        user_inputs = data.get("user_inputs", [])
 
-    code = data.get("code", "")
-    user_inputs = data.get("user_inputs", [])  # Käytetään vain käyttäjän antamia syötteitä
-    language = data.get("language", "").lower()
-    print("Inputs:", user_inputs)  # Debug-tulostus käyttäjän syötteistä
+        if language != "python":
+            return JsonResponse({"error": f"Unsupported language: {language}", "output": ""})
 
-    # Huom! Tässä kohdassa jätetään 'task_inputs' ja tietokannasta haetut syötteet kokonaan huomiotta.
-    # Käytetään ainoastaan käyttäjän antamia syötteitä.
-    combined_inputs = user_inputs  # Käytetään suoraan käyttäjän antamia syötteitä
-
-    # Tarkista kielituki
-    if language == "python":
+        # Execute code using Lambda
+        result = code_executor.execute_code(
+            code=code,
+            inputs=user_inputs
+        )
         
-        #output = run_python_code(code, combined_inputs)  # Huomaa, että 'task' ei enää välitetä
-        #output = run_python_code(code, combined_inputs)
-        output = runner.process_code(code, combined_inputs)
-        # output = process_code_rest_api(code, combined_inputs)
-            
-    
-    
-    
-    
-    elif language == "pseudo":
-        return JsonResponse({"output": ""})
-    else:
-        return JsonResponse({"error": f"Unsupported language: {language}", "output": ""})
+        logger.info("Anonymous code execution completed")
+        return result
 
-    # Palautetaan suorituksen tuloste
-    return output
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON", "output": ""})
+    except Exception as e:
+        logger.error(f"Error executing anonymous code: {str(e)}")
+        return JsonResponse({"error": str(e), "output": ""})
 
 
 
