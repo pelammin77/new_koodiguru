@@ -1,4 +1,3 @@
-
 {% extends 'main_app/base.html' %}
 {% load static %}
 
@@ -7,33 +6,64 @@
 {% endblock %}
 
 {% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-15 col-lg-12">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h2 class="mb-4">Yhteystiedot</h2>
+                            
+                            <div class="mb-4">
+                                <h5 class="mb-3">
+                                    <i class="fa fa-map-marker"></i> Osoite
+                                </h5>
+                                <p>Kievarintie Ähtäri</p>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h5 class="mb-3">
+                                    <i class="fa fa-envelope"></i> Sähköposti
+                                </h5>
+                                <p>koodiguruoficial@gmail.com</p>
+                            </div>
+                        </div>
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-lg-6">
-            <h1>Yhteystiedot</h1>
-            <h5><i class="fa fa-map-marker"></i> Osoite</h5>
-            <p>Kievarintie Ähtäri</p>
-            
-            <h5><i class="fa fa-envelope"></i> Sähköposti</h5>
-            <p>koodiguruoficial@gmail.com</p>
-        </div>
-        <div class="col-lg-6">
-            {% if user.is_authenticated %}
-                <h2>Ota yhteyttä</h2>
-                <form action="{% url 'main_app:send_email' %}" method="POST">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="messageTextArea">Viestisi</label>
-                        <textarea class="form-control" id="messageTextArea" name="messageTextArea" rows="3" placeholder="Viestisi"></textarea>
+                        <div class="col-lg-6">
+                            {% if user.is_authenticated %}
+                                <h2 class="mb-4">Ota yhteyttä</h2>
+                                <form action="{% url 'main_app:send_email' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="messageTextArea" class="form-label">Viestisi</label>
+                                        <textarea 
+                                            class="form-control" 
+                                            id="messageTextArea" 
+                                            name="messageTextArea" 
+                                            rows="5" 
+                                            placeholder="Kirjoita viestisi tähän"
+                                            required
+                                        ></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Lähetä</button>
+                                </form>
+                            {% else %}
+                                <div class="text-center p-3">
+                                    <p class="mb-0">
+                                        Ole hyvä ja 
+                                        <a href="{% url 'main_app:login' %}" class="text-decoration-none">kirjaudu sisään</a> 
+                                        tai 
+                                        <a href="{% url 'main_app:register' %}" class="text-decoration-none">rekisteröidy</a>, 
+                                        jotta voit ottaa meihin yhteyttä.
+                                    </p>
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Lähetä</button>
-                </form>
-            {% else %}
-                <p>Ole hyvä ja <a href="{% url 'main_app:login' %}">kirjaudu sisään</a> tai <a href="{% url 'main_app:register' %}">rekisteröidy</a>, jotta voit ottaa meihin yhteyttä.</p>
-            {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 {% endblock %}

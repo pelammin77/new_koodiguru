@@ -290,7 +290,7 @@ def edit_profile(request):
         if form.is_valid() and password_form.is_valid():
             password = password_form.cleaned_data.get("password")
             if not check_password(password, request.user.password):
-                messages.error(request, "Antamasi salasana ei ole oikea.")
+                password_form.add_error('password', 'Antamasi salasana ei ole oikea.')
             else:
                 form.save()
                 messages.success(request, "Profiili päivitetty onnistuneesti!")
@@ -312,14 +312,12 @@ class CustomPasswordChangeView(auth_views.PasswordChangeView):
     success_url = reverse_lazy("main_app:profile")
 
     def form_valid(self, form):
-        # Kutsu yliluokan form_valid-metodia saadaksesi normaalin toiminnallisuuden.
         response = super().form_valid(form)
         messages.success(self.request, "Salasanasi on vaihdettu onnistuneesti!")
         return response
 
     def form_invalid(self, form):
-        # Jos haluat lisätä viestejä virhetilanteissa, voit ylikirjoittaa tämän metodin
-        messages.error(self.request, "Salasanan vaihto epäonnistui. Yritä uudelleen.")
+        # Don't add a generic error message here since the form will show field-specific errors
         return super().form_invalid(form)
 
 

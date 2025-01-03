@@ -1,44 +1,57 @@
 {% extends 'main_app/base.html' %}
+{% load static %}
+
 {% block title %}
     KoodiGuru - Kurssit
-    {% endblock %}
-
-{% block content %}
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/course_list_style.css' %}">
-
-<h1>Kurssit</h1>
-<hr>
-<br>
-<div class="row">
-    {% for course in courses %}
-    <div class="col-md-6 mb-4"> <!-- Lisätty alamarginaali (mb-4) -->
-        <div class="card shadow-sm" style="padding: 10px;">
-            <div class="card-body">
-                <img src="{{ course.courseLogo.url }}" alt="{{ course.courseTitle }} logo" class="card-img-top" style="max-width: 200px; max-height: 200px; margin-bottom: 15px;">
-
-                <h5 class="card-title">{{ course.courseTitle }}</h5>
-                <p class="card-text">{{ course.courseDescription }}</p>
-                <p class="card-text"><strong>Tutoriaalien määrä: </strong>{{ course.num_tutorials }}</p>
-                <p class="card-text"><strong>Tehtävien määrä: </strong>{{ course.num_tasks }}</p>
-                <p class="card-text"><strong>Esitiedot: </strong>{{course.prerequisites}}</p>
-                {% if course.is_premium %}
-                <p class="card-text text-danger"><strong>Premium Kurssi</strong></p>
-                {% endif %}
-                
-                <a href="{% url 'main_app:course_detail' course.id %}" class="btn btn-primary mr-2">Siirry kurssiin</a>
-                {% if course.video_url %}
-                <a href="{{ course.video_url }}" class="btn btn-info" target="_blank">Kurssin esittelyvideo</a>
-                {% endif %}
-            </div>
-            {% if request.user.is_authenticated and request.user.role == 'student' and course.id not in user_courses %}
-            <a href="{% url 'main_app:add_course_to_user' course.id %}" class="btn btn-outline-primary mb-2">Lisää kurssi suosikkeihin</a>
-            {% endif %}
-        </div>
-    </div>
-    {% endfor %}
-</div>
-<br>
-<br>
 {% endblock %}
 
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/course_list_style.css' %}">
+
+<div class="container">
+    <h1 class="text-center">Kurssit</h1>
+    <div class="row gap-4">
+        {% for course in courses %}
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img src="{{ course.courseLogo.url }}" 
+                             alt="{{ course.courseTitle }} logo" 
+                             class="course-logo img-fluid">
+                    </div>
+                    
+                    <h3 class="card-title text-center">{{ course.courseTitle }}</h3>
+                    <p class="card-text">{{ course.courseDescription }}</p>
+                    
+                    <div class="course-info">
+                        <p><strong>Tutoriaalien määrä: </strong>{{ course.num_tutorials }}</p>
+                        <p><strong>Tehtävien määrä: </strong>{{ course.num_tasks }}</p>
+                        <p><strong>Esitiedot: </strong>{{ course.prerequisites }}</p>
+                        {% if course.is_premium %}
+                            <p class="premium-badge"><i class="bi bi-star-fill me-2"></i>Premium Kurssi</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'main_app:course_detail' course.id %}" class="btn btn-dark">
+                            <i class="bi bi-arrow-right-circle me-2"></i>Siirry kurssiin
+                        </a>
+                        {% if course.video_url %}
+                            <a href="{{ course.video_url }}" class="btn btn-outline-dark" target="_blank">
+                                <i class="bi bi-play-circle me-2"></i>Kurssin esittelyvideo
+                            </a>
+                        {% endif %}
+                        {% if request.user.is_authenticated and request.user.role == 'student' and course.id not in user_courses %}
+                            <a href="{% url 'main_app:add_course_to_user' course.id %}" class="btn btn-outline-dark">
+                                <i class="bi bi-bookmark-plus me-2"></i>Lisää kurssi suosikkeihin
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

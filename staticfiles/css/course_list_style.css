@@ -1,26 +1,115 @@
+/* Container Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Page Title */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 3rem;
+}
+
+/* Course Cards */
 .card {
-    border-radius: 15px; /* pyöristetyt kulmat */
-    height: auto;   /* Määritä maksimikorkeus */
-    padding: 20px;
-    width: auto;
-    overflow: hidden;    /* Piilota ylikuormittunut sisältö */
-    border: double;
-    color: gold;
-    background: linear-gradient(45deg,  #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); 
+    border: none;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease;
+    height: 100%;
+    padding: 0;
 }
 
-.btn-outline-primary {
-    border-color: green;
-    background-color: rgb(5, 247, 5);
-    color: black;
+.card:hover {
+    transform: translateY(-5px);
 }
 
-.btn-outline-primary:hover {
-    background-color: green;
-    color: #FFF;
+.card-body {
+    padding: 2rem;
 }
 
+/* Course Logo */
+.course-logo {
+    max-width: 200px;
+    max-height: 200px;
+    margin-bottom: 1.5rem;
+}
 
-.btn-spacing {
-margin: 10px;
+/* Typography */
+.card-title {
+    color: #212529;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.card-text {
+    color: #495057;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+/* Course Info */
+.course-info {
+    margin-bottom: 1.5rem;
+}
+
+.course-info p {
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.premium-badge {
+    color: #dc3545;
+    font-weight: 500;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-dark {
+    background: #374998;
+    border-color: #374998;
+}
+
+.btn-dark:hover {
+    background: #2c3a7a;
+    border-color: #2c3a7a;
+    transform: translateY(-1px);
+}
+
+.btn-outline-dark {
+    color: #374998;
+    border-color: #374998;
+}
+
+.btn-outline-dark:hover {
+    background: #374998;
+    border-color: #374998;
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
 }

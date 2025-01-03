@@ -39,10 +39,15 @@
 <script src="{% static 'codemirror/addon/selection/active-line.js' %}"></script>
 
 
-<a href="javascript:history.back()"><strong> Palaa edelliselle sivulle</strong></a>
-<h1 style="text-align: center">{{ task.taskTitle|safe }}</h1>
+<div class="navigation-link mt-2">
+    <a href="javascript:history.back()" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>
+        <strong>Palaa edelliselle sivulle</strong>
+    </a>
+</div>
+<h1 style="text-align: center" class="mb-3">{{ task.taskTitle|safe }}</h1>
 
-<h3 class="content-header">Tehtävänanto </h3>
+<h3 class="content-header mb-3">Tehtävänanto </h3>
 <div class="description-style content-section">
     <p>{{ task.taskDescription|safe }}</p>
 </div>
@@ -51,24 +56,25 @@
 {% endif %}
 
 <br>
-
 <div class="example-run-container content-section">
-    <h3>Esimerkkiajo:</h3>
-    <div class="example-run">
-        <pre class="prettyprint">
+    <h3 class="m-3">Esimerkkiajo:</h3>
+    <div class="example-run bg-light p-3 rounded">
+        <pre class="prettyprint mb-0">
 {{ answer.answerOutput|safe }}
         </pre>
     </div>
-    {% if task_status == 'solved' %}
-    <div class="view-answer-link" style="margin-bottom: 20px;">
-        <a href="{% url 'main_app:review_task' task.id %}">Tarkastele vastausta</a>
-    </div>
-    {% endif %}
-    
-
-
 </div>
-
+{% if task_status == 'solved' %}
+    <div class="view-answer-link mt-4 text-center">
+        <a href="{% url 'main_app:review_task' task.id %}" class="btn btn-outline-primary btn-lg">
+            <i class="fas fa-eye me-2"></i>Tarkastele vastausta
+        </a>
+        <p class="text-muted mt-2">
+            <i class="fas fa-check-circle text-success me-1"></i>
+            Olet suorittanut tämän tehtävän onnistuneesti!
+        </p>
+    </div>
+{% endif %}
 <!-- Uusi koodieditori div elementti -->
 <div class="editor-header">
     Koodiguru-editori versio 1.0
@@ -99,10 +105,10 @@
 </div>
 
 <textarea id="code-editor">{{ user_answer.answer|default:task.taskStarterCode|safe }}</textarea>
-<div class="console-title">
+<!-- <div class="console-title">
     <button id="console-test-code-button" class="test-code-button">Testaa koodi</button>
     <button id="console-save-code-button" class="save-code-button">Tallenna vastaus</button>
-</div>     
+</div>      -->
 <div id="consoleElement" style="border: 10px solid; color: rgb(14, 14, 15);  background-color: #D5D6D6;   padding: 10px;  margin-bottom: 50px; width: auto; height: 250px; overflow-y: scroll;"></div>
 </div>
 

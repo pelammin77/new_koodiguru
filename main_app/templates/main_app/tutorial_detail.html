@@ -1,28 +1,35 @@
+{% extends 'main_app/base.html' %}
+{% load embed_video_tags %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tutorial_detail_styles.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/prismjs@1.25.0/themes/prism.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.25.0/components/prism-core.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.25.0/components/prism-python.min.js"></script>    
-    
-   
-    {% extends 'main_app/base.html' %}
-     {% load embed_video_tags %}
-    
-    {% block content %}
-    {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/tutorial_detail_styles.css' %}">
+    <!-- Back Navigation -->
+    <div class="navigation-link mt-2">
+        <a href="javascript:history.back()" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>
+            <strong>Palaa edelliselle sivulle</strong>
+        </a>
+    </div>
+     
 
-
-        <div class="container">
-           
-                <h1>{{ tutorial.title|safe }}</h1>
-                <p>{{ tutorial.content|safe }}</p>
-                {% if tutorial.video_url %}
-                    <p><a href="{{ tutorial.video_url }}">Linkki videoon</a></p>
-                {% endif %}
+        <!-- Tutorial Content -->
+        <div class="tutorial-container">
+            <h1 class="text-center">{{ tutorial.title|safe }}</h1>
+            <div class="tutorial-content">
+                {{ tutorial.content|safe }}
             </div>
-           <a href="javascript:history.back()">Palaa edelliselle sivulle</a>
-    
-        
-    
+            
+            {% if tutorial.video_url %}
+                <a href="{{ tutorial.video_url }}" class="video-link" target="_blank">
+                    <i class="bi bi-play-circle"></i> Katso video-ohje
+                </a>
+            {% endif %}
         </div>
-    {% endblock %}
+
+    <!-- Prism.js for code highlighting -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.25.0/components/prism-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.25.0/components/prism-python.min.js"></script>
+{% endblock %}
     

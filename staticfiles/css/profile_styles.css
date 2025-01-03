@@ -1,30 +1,233 @@
-
 .profile-info {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
     margin-bottom: 20px;
 }
 
 .level-icon {
-    width: 150px; /* tai haluamasi koko */
-    height: 150px; /* tee tästä sama kuin leveys, jotta saat ympyrän */
-    border-radius: 50%; /* Tämä tekee elementistä pyöreän */
-    display: block;
-    object-fit: cover; /* Varmistaa, että kuva peittää koko elementin alueen säilyttäen mittasuhteensa */
-    display: block;
-    margin: 20px 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    border: 3px solid #fff;
 }
 
-.user-level {
+.level-section {
+    background: linear-gradient(to right, #f8f9fa, #ffffff);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.stats {
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+.stats span {
+    padding: 0.5rem 1rem;
+    background: rgba(255,255,255,0.7);
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.progress-section {
+    background: white;
+    padding: 1.2rem;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.progress {
+    height: 25px;
+    background-color: #e9ecef;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+    transition: width 0.6s ease;
+    border-radius: 15px;
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.user-details {
+    line-height: 1.8;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+.user-details p {
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.user-details p:last-child {
+    border-bottom: none;
+}
+
+/* Progress bar color variations */
+.progress-bar.beginner {
+    background: linear-gradient(45deg, #28a745, #1e7e34);
+}
+
+.progress-bar.intermediate {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+}
+
+.progress-bar.advanced {
+    background: linear-gradient(45deg, #6f42c1, #4e2d89);
+}
+
+.progress-bar.expert {
+    background: linear-gradient(45deg, #dc3545, #a71d2a);
+}
+
+/* Edit Profile Form Styles */
+.edit-profile-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.edit-profile-form input[type="text"],
+.edit-profile-form input[type="email"],
+.edit-profile-form input[type="password"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background-color: #f8f9fa;
+}
+
+.edit-profile-form input[type="text"]:focus,
+.edit-profile-form input[type="email"]:focus,
+.edit-profile-form input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+    background-color: #fff;
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.form-text {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+/* Profile Actions */
+.profile-actions {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.profile-actions .btn {
+    padding: 0.5rem 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.profile-actions .btn i {
+    font-size: 1rem;
+}
+
+/* Password Change Styles */
+.password-instructions {
+    background: linear-gradient(to right, #f8f9fa, #ffffff);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    margin: 1.5rem 0;
+}
+
+.password-instructions h5 {
+    color: #495057;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.requirements-list {
+    margin: 0;
+    padding: 0;
+}
+
+.requirements-list li {
     display: flex;
     align-items: center;
+    margin-bottom: 0.75rem;
+    color: #495057;
+    font-size: 0.95rem;
 }
 
-.user-level p {
-    margin-right: 10px;
-}
-.progress{
-    height: 20px;
+.requirements-list li:last-child {
+    margin-bottom: 0;
 }
 
-.progress-bar{
-    height: auto;
+.requirements-list i {
+    margin-right: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.error-feedback {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background-color: rgba(220, 53, 69, 0.1);
+    border-radius: 4px;
+}
+
+/* Button Styles */
+.btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.btn i {
+    font-size: 1.1rem;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #0056b3, #003d80);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+
+.btn-outline-secondary {
+    border: 1px solid #6c757d;
+    color: #495057;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #f8f9fa;
+    color: #212529;
+    border-color: #495057;
 }

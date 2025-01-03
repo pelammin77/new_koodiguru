@@ -9,82 +9,82 @@
 
 <br>
 <div class="container">
-    <h2>Hei {{ user.first_name }}. Tervetuloa Koodiguruun!</h2>
+    <h2>Hei {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}. Tervetuloa Koodiguruun!</h2>
     <hr>
     <div class="profile-info">
-        <h3> {{ user.level_name }}</h3>
-        {% if user.level_icon_url %}
-        <img class="level-icon" src="{{ user.level_icon_url }}" alt="User Level Icon">
-    {% else %}
-        <p>Tuntematon taso</p>
-    {% endif %}
-    <p><strong>Suoritetut tehtävät:</strong> {{ user.completed_tasks_count }}</p>
-    <p><strong>Pisteet:</strong> {{user.points }}</p>
-   <!-- <p><strong>Seuraava taso:</strong> -->
-  <!-- Nykyisen tason edistymispalkki -->
-<!-- Nykyisen tason edistymispalkki -->
-<div class="container">
-   
-    <!-- Tason nimi edistymispalkin yläpuolella -->
-    <div style="text-align: left; margin-bottom: 10px; font-size: 18px;">
-        <h4> {{ user.level_name }}-tason edistyminen</h4>
-    </div>
+        <div class="level-section mb-4">
+            <div class="d-flex align-items-center">
+                {% if user.level_icon_url %}
+                    <img class="level-icon me-3" src="{{ user.level_icon_url }}" alt="User Level Icon">
+                {% endif %}
+                <div>
+                    <h3 class="mb-2 ml-3">{{ user.level_name }}</h3>
+                    <div class="stats mb-3">
+                        <span class="me-4"><strong>Suoritetut tehtävät:</strong> {{ user.completed_tasks_count }}</span>
+                        <span><strong>Pisteet:</strong> {{user.points }}</span>
+                    </div>
+                </div>
+            </div>
 
-    <div class="progress" style="height: 40px; width: 70%; margin-top: 10px;">
-        <div class="progress-bar {{ level_data.color }}" role="progressbar" 
-            style="width: {{ level_data.percentage }}%;" 
-            aria-valuenow="{{ level_data.percentage }}" aria-valuemin="0" 
-            aria-valuemax="100">
-            {{ level_data.percentage|floatformat:0 }}%
+            <div class="progress-section mt-4">
+                <h5 class="text-muted mb-2">Edistyminen seuraavalle tasolle</h5>
+                <div class="progress">
+                    <div class="progress-bar {{ level_data.color }}" role="progressbar" 
+                        style="width: '{{ level_data.percentage }}%'"
+                        aria-valuenow="{{ level_data.percentage }}" 
+                        aria-valuemin="0" 
+                        aria-valuemax="100">
+                        {{ level_data.percentage|floatformat:0 }}%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="user-details mt-4">
+            <p><strong>Käyttäjänimi:</strong> {{ user.username }}</p>
+            <p><strong>Nimi:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+            <p><strong>Sähköposti:</strong> {{ user.email }}</p>
+            <p><strong>Rooli:</strong> {{ user.role }}</p>
+            
+            {% localtime on %}
+            <p><strong>Edellinen kirjautuminen:</strong>  {{user.last_login|date:"d.m.Y H :i:s "}} </p>
+            {% endlocaltime %}
+
+            {% localtime on %}
+            <p><strong>Liittyi: </strong> {{user.date_joined|date:"d.m.Y H:i"}}</p>
+            {% endlocaltime %}
         </div>
     </div>
-</div>
 
+    <div class="profile-actions mt-4 mb-4">
+        <a href="{% url 'main_app:edit_profile' %}" class="btn btn-primary me-3">
+            <i class="fas fa-user-edit"></i> Muokkaa profiilia
+        </a>
+        <a href="{% url 'main_app:password_change' %}" class="btn btn-outline-primary">
+            <i class="fas fa-key"></i> Muuta salasanaa
+        </a>
+    </div>
 
-       <br>
-        <p><strong>Käyttäjänimi:</strong> {{ user.username }}</p>
-        <p><strong>Nimi:</strong> {{ user.first_name }} {{ user.last_name }}</p>
-        <p><strong>Sähköposti:</strong> {{ user.email }}</p>
-        <p><strong>Rooli:</strong> {{ user.role }}</p>
+    <hr>
+    {% if request.user.is_authenticated and request.user.role == 'student'%}
+    <h2>Omat suosikki kurssit </h2>
+    <hr>
+
+    {% for usercourse in user.usercourse_set.all %}
+    <div class="d-flex justify-content-between align-items-center">
         
-       <!-- <div class="user-level">
-            <p><strong>Taso:</strong> {{ user.level_name }}</p>
-           
-        </div>
-    -->
+        <h5><a href="{% url 'main_app:course_detail' usercourse.course.id %}"> {{ usercourse.course.courseTitle }}</a></h5>
+        <a href="{% url 'main_app:remove_course_from_user' usercourse.course.id %}" class="btn btn-sm btn-danger">Poista kurssi</a>
 
+        
 
-{% localtime on %}
-<p><strong>Edellinen kirjautuminen:</strong>  {{user.last_login|date:"d.m.Y H :i:s "}} </p>
-{% endlocaltime %}
+    </div>
+    <hr>
 
-{% localtime on %}
-<p><strong>Liittyi: </strong> {{user.date_joined|date:"d.m.Y H:i"}}</p>
-{% endlocaltime %}
-<hr>
-<p><a href="{% url 'main_app:edit_profile' %}"><strong>Muokkaa profiilia </strong> </a> </p>
-<a href="{% url 'main_app:password_change' %}"><strong>Muuta salasanaa.</strong></a>
+    {% endfor %}
+    </div>
 
-<hr>
-{% if request.user.is_authenticated and request.user.role == 'student'%}
-<h2>Omat suosikki kurssit </h2>
-<hr>
-
-{% for usercourse in user.usercourse_set.all %}
-<div class="d-flex justify-content-between align-items-center">
-    
-    <h5><a href="{% url 'main_app:course_detail' usercourse.course.id %}"> {{ usercourse.course.courseTitle }}</a></h5>
-    <a href="{% url 'main_app:remove_course_from_user' usercourse.course.id %}" class="btn btn-sm btn-danger">Poista kurssi</a>
-
-    
-
-</div>
-<hr>
-
-{% endfor %}
-</div>
-
-{% endif %}
+    {% endif %}
 
 </div>
 </div>
