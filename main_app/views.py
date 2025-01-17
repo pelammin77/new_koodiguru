@@ -629,9 +629,7 @@ def test_code(request):
         code = request.POST.get("code", "")
         language = request.POST.get("language", "").lower()
         debug_mode = request.POST.get("debug", "false").lower() == "true"
-        
-        user = request.user
-        task_id = request.session.get("task_id")
+        task_id = request.POST.get("task_id")
         
         try:
             task = Task.objects.get(id=task_id)
@@ -648,9 +646,11 @@ def test_code(request):
                     code=code,
                     inputs=task_inputs,
                     test_code=test_code,
-                    debug=debug_mode
+                    debug=debug_mode,
+                    user=request.user if request.user.is_authenticated else None,
+                    task=task
                 )
-                logger.info("Käyttäjä %s ajoi koodia tehtävässä %s", user.username, task_id)
+                logger.info("Käyttäjä %s ajoi koodia tehtävässä %s", request.user.username if request.user.is_authenticated else "anonymous", task_id)
                 return output
             elif language == "pseudo":
                 return JsonResponse({"output": ""})
@@ -674,14 +674,25 @@ def run_code_ano(request):
         code = data.get("code", "")
         language = data.get("language", "").lower()
         user_inputs = data.get("user_inputs", [])
+        task_id = data.get("task_id")
 
         if language != "python":
             return JsonResponse({"error": f"Unsupported language: {language}", "output": ""})
 
+        # Get task if task_id is provided
+        task = None
+        if task_id:
+            try:
+                task = Task.objects.get(id=task_id)
+            except Task.DoesNotExist:
+                pass
+
         # Execute code using Lambda
         result = code_executor.execute_code(
             code=code,
-            inputs=user_inputs
+            inputs=user_inputs,
+            user=request.user if request.user.is_authenticated else None,
+            task=task
         )
         
         logger.info("Anonymous code execution completed")

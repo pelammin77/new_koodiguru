@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import *
@@ -106,4 +105,21 @@ admin.site.register(Tutorial, TutorialAdmin)
 admin.site.register(TutorialCategory)
 admin.site.register(TaskCategory)
 admin.site.register(Post, PostAdmin)
+
+class LambdaUsageAdmin(admin.ModelAdmin):
+    list_display = ['user', 'task', 'timestamp']
+    list_filter = ['user', 'task', 'timestamp']
+    search_fields = ['user__username', 'task__taskTitle']
+    ordering = ['-timestamp']
+
+admin.site.register(LambdaUsage, LambdaUsageAdmin)
+
+class LambdaUsageStatsAdmin(admin.ModelAdmin):
+    list_display = ['user', 'total_executions', 'executions_today', 'last_execution']
+    list_filter = ['last_execution_date']
+    search_fields = ['user__username']
+    ordering = ['-total_executions']
+    readonly_fields = ['total_executions', 'last_execution', 'executions_today', 'last_execution_date']
+
+admin.site.register(LambdaUsageStats, LambdaUsageStatsAdmin)
 

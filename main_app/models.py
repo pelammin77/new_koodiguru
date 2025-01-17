@@ -381,3 +381,60 @@ class UserAnswer(models.Model):
         self.answer = self.answer.strip()
         self.answer = self.answer.strip("\n")
         super(UserAnswer, self).save(*args, **kwargs)
+
+
+class LambdaUsageStats(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    total_executions = models.IntegerField(default=0)
+    last_execution = models.DateTimeField(null=True, blank=True)
+    executions_today = models.IntegerField(default=0)
+    last_execution_date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.total_executions} executions"
+
+    class Meta:
+        verbose_name = "Lambda Usage Statistics"
+        verbose_name_plural = "Lambda Usage Statistics"
+
+    @classmethod
+    def update_stats(cls, user):
+        if not user:
+            return
+            
+        now = timezone.now()
+        stats, created = cls.objects.get_or_create(user=user)
+        
+        # Update total executions
+        stats.total_executions += 1
+        
+        # Update last execution time
+        stats.last_execution = now
+        
+        # Update daily executions
+        if stats.last_execution_date != now.date():
+            stats.executions_today = 1
+            stats.last_execution_date = now.date()
+        else:
+            stats.executions_today += 1
+        
+        stats.save()
+
+
+class LambdaUsage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} - {self.task} - {self.timestamp}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Update usage statistics when a new usage record is created
+        LambdaUsageStats.update_stats(self.user)
+
+    class Meta:
+        verbose_name = "Lambda Usage"
+        verbose_name_plural = "Lambda Usages"
+        ordering = ['-timestamp']

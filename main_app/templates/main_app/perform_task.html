@@ -229,7 +229,9 @@ document.getElementById('test-code-button').addEventListener('click', function()
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-CSRFToken': getCookie('csrftoken')
         },
-        body: 'code=' + encodeURIComponent(code) + '&language=' + encodeURIComponent("{{ task.language|lower }}")
+        body: 'code=' + encodeURIComponent(code) + 
+              '&language=' + encodeURIComponent("{{ task.language|lower }}") +
+              '&task_id=' + encodeURIComponent("{{ task.id }}")
     })
     .then(response => response.json())
     .then(data => {
@@ -305,7 +307,8 @@ document.getElementById('run-code-button').addEventListener('click', function() 
         body: JSON.stringify({
             code: code, 
             language: "{{ task.language|lower }}",
-            user_inputs: inputs // Lähetä käyttäjän syötteet palvelimelle
+            user_inputs: inputs, // Lähetä käyttäjän syötteet palvelimelle
+            task_id: "{{ task.id }}"
         })
     })
     .then(response => response.json())
@@ -393,7 +396,9 @@ document.getElementById('console-test-code-button').addEventListener('click', fu
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-CSRFToken': getCookie('csrftoken')
         },
-        body: 'code=' + encodeURIComponent(code) + '&language=' + encodeURIComponent("{{ task.language|lower }}")
+        body: 'code=' + encodeURIComponent(code) + 
+              '&language=' + encodeURIComponent("{{ task.language|lower }}") +
+              '&task_id=' + encodeURIComponent("{{ task.id }}")
     })
     .then(response => response.json())
     .then(data => {
