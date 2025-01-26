@@ -1,8 +1,10 @@
 import boto3
 import json
 import logging
+import traceback
 from django.conf import settings
 from django.http import JsonResponse
+from main_app.models import LambdaUsage
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +18,7 @@ class LambdaCodeExecutor:
         )
         self.function_name = settings.AWS_LAMBDA_FUNCTION_NAME
 
-    def execute_code(self, code, inputs=None, test_code=None, debug=False):
+    def execute_code(self, code, inputs=None, test_code=None, debug=False, user=None, task=None):
         """
         Execute code using AWS Lambda
         
@@ -25,13 +27,28 @@ class LambdaCodeExecutor:
             inputs (list): List of inputs for the code
             test_code (str): Test code to run after main code
             debug (bool): Whether to enable debug mode
+            user: The user executing the code
+            task: The task being attempted
         """
         try:
+            print(user, task)
+            # Save usage record first if we have both user and task
+            if user and task:
+                try:
+                    LambdaUsage.objects.create(
+                        user=user,
+                        task=task
+                    )
+                except Exception as e:
+                    logger.error(f"Failed to save Lambda usage record: {e}")
+
             payload = {
                 'code': code,
                 'inputs': inputs or [],
                 'test_code': test_code,
-                'debug': debug
+                'debug': debug,
+                'user_id': user.id if user else None,
+                'task_id': task.id if task else None
             }
 
             if debug:

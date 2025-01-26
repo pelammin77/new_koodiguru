@@ -1,30 +1,49 @@
 {% extends 'main_app/base.html' %}
+{% load dict_tools %}
+{% load static %}
 {% block title %}
     Kirjaudu - KoodiGuru
 {% endblock %}
-{% block content %}
-    <div class="centered-wrapper">
-        <div class="form-container register-form">
-            <form action="{% url 'main_app:login' %}" method="post">
-                {% csrf_token %}
-                <h2>Kirjaudu sisään</h2>
-                <div class="form-group">
-                    <label for="{{ form.username.id_for_label }}">Tunnus:</label>
-                    {{ form.username }}
-                </div>
-                <div class="form-group">
-                    <label for="{{ form.password.id_for_label }}">Salasana:</label>
-                    {{ form.password }}
-                </div>
-                <button type="submit" class="btn btn-primary">Kirjaudu</button>
-                <div class="form-group mt-3">
-                    <a href="{% url 'main_app:password_reset' %}">Salasana hukassa?</a>
 
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12 col-lg-9">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4">Kirjaudu sisään</h2>
+                    
+                    <form action="{% url 'main_app:login' %}" method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.username.id_for_label }}" class="form-label">Tunnus</label>
+                            {{ form.username|addclass:"form-control" }}
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="{{ form.password.id_for_label }}" class="form-label">Salasana</label>
+                            {{ form.password|addclass:"form-control" }}
+                        </div>
+
+                        <button type="submit" class="btn btn-dark w-100 mb-3">Kirjaudu</button>
+
+                        <div class="text-center">
+                            <p class="mb-2">
+                                <a href="{% url 'main_app:password_reset' %}" class="text-decoration-none">
+                                    Salasana hukassa?
+                                </a>
+                            </p>
+                            <p class="mb-0">
+                                <a href="{% url 'main_app:register' %}" class="text-decoration-none">
+                                    Ei vielä tunnusta?
+                                </a>
+                            </p>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <a href="{% url 'main_app:register'%}">Ei vielä tunnusta?</a>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
+</div>
 {% endblock %}

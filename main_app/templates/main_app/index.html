@@ -1,5 +1,5 @@
 {% extends 'main_app/base.html' %}
-{% load static %}  <!-- Tämä rivi lisätty -->
+{% load static %}
 
 {% block title %}
     KoodiGuru
@@ -7,55 +7,61 @@
 
 {% block content %}
 
-<!-- Luo tili -osio -->
 {% if not request.user.is_authenticated %}
-<div class="create-account-section">
-    <h2>Tervetuloa oppimaan </h2>
-    <p>Liity nyt ja aloita matkasi koodiguruna.</p>
-    <a class="create-account-btn" href="{% url 'main_app:register'%}">Luo tili</a>
+<div class="bg-dark text-white py-5">
+    <div class="container text-center">
+        <h2 class="display-4">Tervetuloa oppimaan</h2>
+        <p class="lead">Liity nyt ja aloita matkasi koodiguruna.</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'main_app:register'%}">Luo tili</a>
+    </div>
 </div>
 {% endif %}
-<br>
-<br>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-12 mb-4 bg-light">
-            <h1>Mikä on KoodiGuru</h1>
-            <br>
-            <p>Tervetuloa KoodiGuruun - koodauksen oppimisen keskukseen! 
-                KoodiGuru on suomalainen ohjelmointikurssien ja 
-                algoritmihaasteiden palvelu, joka auttaa sinua 
-                kehittämään koodaustaitojasi ja valmistautumaan 
-                työhaastatteluihin.</p> 
-                
-                <p>Olemme ylpeitä tarjotessamme 
-                laadukkaita kursseja, jotka on suunniteltu vastaamaan 
-                erilaisten oppijoiden tarpeita ja edistymistasoja. 
-                Kurssiemme aiheet vaihtelevat perusohjelmoinnista 
-                kehittyneisiin tekoäly- ja koneoppimisratkaisuihin.</p>
+    <div class="col-md-12 mb-4 bg-light p-5 rounded shadow-sm">
+        <h1 class="text-center mb-4">Mikä on KoodiGuru</h1>
+        
+        <p class="lead">
+            Tervetuloa KoodiGuruun - koodauksen oppimisen keskukseen! 
+            KoodiGuru on suomalainen ohjelmointikurssien ja 
+            algoritmihaasteiden palvelu, joka auttaa sinua 
+            kehittämään koodaustaitojasi ja valmistautumaan 
+            työhaastatteluihin.
+        </p>
+        
+        <p>
+            Olemme ylpeitä tarjotessamme 
+            laadukkaita kursseja, jotka on suunniteltu vastaamaan 
+            erilaisten oppijoiden tarpeita ja edistymistasoja. 
+            Kurssiemme aiheet vaihtelevat perusohjelmoinnista 
+            kehittyneisiin tekoäly- ja koneoppimisratkaisuihin.
+        </p>
 
-                <p>Liity KoodiGuruun tänään ja aloita matkasi kohti 
-                ohjelmointiosaamisen huippua. Kokeneet ohjaajamme 
-                ja kattava kurssivalikoimamme tarjoavat sinulle 
-                kaiken tarvitsemasi tuen ja resurssit menestyäksesi 
-                tässä jännittävässä alalla. Tervetuloa mukaan!</p>
+        <p>
+            Liity KoodiGuruun tänään ja aloita matkasi kohti 
+            ohjelmointiosaamisen huippua. Kokeneet ohjaajamme 
+            ja kattava kurssivalikoimamme tarjoavat sinulle 
+            kaiken tarvitsemasi tuen ja resurssit menestyäksesi 
+            tässä jännittävässä alalla. Tervetuloa mukaan!
+        </p>
 
-		<p> <strong> HUOM Koodiguru on vasta beta vaiheessa  </strong> <p> <br>
+        <p class="alert alert-info">
+            <strong>HUOM Koodiguru on vasta beta vaiheessa</strong>
+        </p>
 
-		<iframe 
-			width="460" height="315" 
-			src="https://www.youtube.com/embed/K6a_iPDDLKA?si=YH22LFxjdbwZ-o8U" 
-			title="YouTube video player" frameborder="0" 
-			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-		
-		</iframe>
-  
-                
+        <div class="mt-4 text-center">
+            <iframe 
+                src="https://www.youtube.com/embed/K6a_iPDDLKA?si=YH22LFxjdbwZ-o8U" 
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen
+                width="460" 
+                height="315"
+                style="max-width: 100%;"
+            >
+            </iframe>
         </div>
     </div>
 </div>
-
-
 
 {% endblock %}

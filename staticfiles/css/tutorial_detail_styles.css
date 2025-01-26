@@ -1,38 +1,121 @@
-.container .tutorial-container {
-    background-color: #E5E5E5; /* Taustaväri */
-    border: 1px double gold; /* Kehyksen väri */
-    padding: 20px; /* Sisäinen etäisyys */
-    margin-bottom: 20px; /* Ulkoinen etäisyys alhaalla */
+/* Container Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
 }
 
-.container .tutorial-container h1 {
-    color: black; /* Otsikon väri */
-    margin-bottom: 20px; /* Ulkoinen etäisyys alhaalla */
+/* Tutorial Content */
+.tutorial-container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+    padding: 2rem;
+    margin-bottom: 2rem;
 }
 
-.tutorial-container p {
-    color: #333; /* Tekstin väri */
-    line-height: 1.6; /* Rivien korkeus */
+/* Typography */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 2rem;
+    text-align: center;
 }
 
-.tutorial-container a {
-    color: #007bff; /* Linkkien väri */
+p {
+    color: #495057;
+    line-height: 1.8;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
 }
 
+/* Code Blocks */
 pre {
-    background-color: #ffff; /* Muutettu taustaväri koodille */
-    border-radius: 4px;
-    padding: 10px;
-    border: 1px double #161515;
-    overflow-x: auto; /* Automaattinen vierityspalkki, jos koodirivi on liian pitkä */
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border: 1px solid #e9ecef;
+    overflow-x: auto;
 }
 
 pre code {
-    background-color: transparent; /* Poistettu koodipalasen taustaväri niin, että se ei peitä pre-elementin taustaväriä */
-    color: white;
-    font-family: 'Courier New', monospace; /* Monospace-fontti koodille */
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #212529;
 }
 
 .language-python {
-    background-color: #FFFFFF !important;
+    background: #f8f9fa !important;
+}
+
+/* Links */
+a {
+    color: #374998;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    color: #2c3a7a;
+    text-decoration: underline;
+}
+
+/* Back Button */
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #374998;
+    color: white;
+    border-radius: 8px;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    transition: all 0.2s ease;
+}
+
+.back-button:hover {
+    background: #2c3a7a;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+/* Video Link */
+.video-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #f8f9fa;
+    color: #374998;
+    border-radius: 8px;
+    font-weight: 500;
+    margin-top: 1rem;
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+}
+
+.video-link:hover {
+    background: #e9ecef;
+    color: #2c3a7a;
+    text-decoration: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .tutorial-container {
+        padding: 1.5rem;
+    }
 }

@@ -11,6 +11,7 @@ from RestrictedPython.Guards import safe_builtins, guarded_iter_unpack_sequence
 import math
 import random
 import numpy as np
+import time
 
 class TimeoutError(Exception):
     pass
@@ -186,6 +187,8 @@ def lambda_handler(event, context):
         inputs = body.get('inputs', [])
         test_code = body.get('test_code')
         debug_mode = body.get('debug', False)
+        user_id = body.get('user_id')
+        task_id = body.get('task_id')
 
         if debug_mode:
             print(f"Received code: {code}")
@@ -195,6 +198,13 @@ def lambda_handler(event, context):
         # Execute code
         executor = RestrictedExecutor(debug=debug_mode)
         result = executor.execute(code, inputs, test_code)
+
+        # Add usage metrics to result
+        result['usage_metrics'] = {
+            'user_id': user_id,
+            'task_id': task_id,
+            'timestamp': time.strftime('%Y-%m-%d %H:%M:%S')
+        }
 
         # Add debug information if requested
         if debug_mode:
@@ -219,6 +229,11 @@ def lambda_handler(event, context):
         error_info = {
             'error': str(e),
             'output': '',
+            'usage_metrics': {
+                'user_id': body.get('user_id') if 'body' in locals() else None,
+                'task_id': body.get('task_id') if 'body' in locals() else None,
+                'timestamp': time.strftime('%Y-%m-%d %H:%M:%S')
+            }
         }
         if debug_mode:
             error_info['debug_info'] = {
