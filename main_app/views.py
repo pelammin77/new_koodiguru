@@ -624,40 +624,49 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
+@require_http_methods(["POST"])
 def test_code(request):
     if request.method == "POST":
         code = request.POST.get("code", "")
         language = request.POST.get("language", "").lower()
         debug_mode = request.POST.get("debug", "false").lower() == "true"
         task_id = request.POST.get("task_id")
-        
+
         try:
             task = Task.objects.get(id=task_id)
             task_inputs = eval(task.taskInputs)
-            
-            # Get test code
-            test_code = None
-            task_test = TaskTest.objects.filter(task=task).first()
-            if task_test:
-                test_code = task_test.test_code
 
-            if language == "python":
-                output = code_executor.execute_code(
-                    code=code,
-                    inputs=task_inputs,
-                    test_code=test_code,
-                    debug=debug_mode,
-                    user=request.user if request.user.is_authenticated else None,
-                    task=task
-                )
-                logger.info("Käyttäjä %s ajoi koodia tehtävässä %s", request.user.username if request.user.is_authenticated else "anonymous", task_id)
-                return output
-            elif language == "pseudo":
-                return JsonResponse({"output": ""})
-            else:
-                return JsonResponse(
-                    {"error": f"Unsupported language: {language}", "output": ""}
-                )
+            if language != "python":
+                return JsonResponse({"error": f"Unsupported language: {language}", "output": ""})
+            
+             # Estetään 'import'-lauseet testivaiheessa turvallisuussyistä
+            import re
+            if re.search(r"^\s*import\s+\w+", code, re.MULTILINE):
+                return JsonResponse({
+                    "error": "Koodissasi on kielletty 'import'-lause. Poista se ja yritä uudelleen.",
+                    "output": ""
+                })
+            
+            # === VAIHE 1: Turva-ajo Lambda-ympäristössä ilman testejä ===
+            safety_check = code_executor.execute_code(
+                code=code,
+                inputs=task_inputs,
+                test_code=None,  # Ei testikoodia tässä vaiheessa
+                debug=debug_mode,
+                user=request.user if request.user.is_authenticated else None,
+                task=task
+            )
+
+            if safety_check.get("error"):
+                return JsonResponse({
+                    "error": "Koodissa on virhe: " + safety_check["error"],
+                    "output": safety_check.get("output", "")
+                })
+
+            # === VAIHE 2: Suorita testit paikallisesti ===
+            return process_code(code, task_inputs, task)
+
         except Exception as e:
             logger.error(f"Error in test_code: {str(e)}")
             return JsonResponse({
@@ -665,6 +674,7 @@ def test_code(request):
                 "output": "",
                 "debug_info": traceback.format_exc() if debug_mode else None
             })
+
         
 @csrf_exempt
 @require_http_methods(["POST"])
